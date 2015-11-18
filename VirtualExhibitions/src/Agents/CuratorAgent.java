@@ -1,8 +1,9 @@
 package Agents;
 
+import Behaviors.ListenProfiler;
+import Behaviors.ListenTourGuide;
 import Model.Item;
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.proto.states.MsgReceiver;
 import java.util.ArrayList;
@@ -22,31 +23,8 @@ public class CuratorAgent extends Agent {
         
         // TODO : add 2 behaviors to listen to incoming messages from ProfilerAgent and TourGuideAgent
         ParallelBehaviour parallel = new ParallelBehaviour();
-        Behaviour listenProfiler = new Behaviour() {
-            @Override
-            public void action() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public boolean done() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        
-        Behaviour listenTourGuide = new Behaviour() {
-            @Override
-            public void action() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public boolean done() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        parallel.addSubBehaviour(listenProfiler);
-        parallel.addSubBehaviour(listenTourGuide);
+        parallel.addSubBehaviour(new ListenProfiler(this));
+        parallel.addSubBehaviour(new ListenTourGuide(this));
         
         this.addBehaviour(parallel);
         
@@ -60,7 +38,7 @@ public class CuratorAgent extends Agent {
      * @return artifacts list
      */
     private ArrayList<Item> getItems() {
-        if (galleryItems == null) {
+        if (this.galleryItems == null) {
             ArrayList<Item> list = new ArrayList<>();
             list.add(new Item("La Joconde", "Da Vinci", "Painting"));
             list.add(new Item("Imagine", "John Lenon", "Music"));
