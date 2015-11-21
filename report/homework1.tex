@@ -1,0 +1,114 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[font=small,labelfont=bf, textfont=it]{caption}
+\usepackage[bottom=2cm, left=3.7cm, right=3.7cm]{geometry} % to change padding
+\usepackage{verbatim}
+\usepackage{subcaption} % for multi figure
+\usepackage{enumitem} % -- label item
+\usepackage{tabularx}
+\usepackage{color}
+\usepackage[usenames, dvipsnames]{xcolor} % color
+\usepackage[framemethod=TikZ]{mdframed} % box
+\usepackage{listings} % code
+\usepackage{minted} % code
+\usepackage{amsmath} % align* maths
+\usepackage{wrapfig}
+\usepackage[bookmarks, hidelinks]{hyperref} % clickable links
+\usepackage{graphicx} % includegraphics
+\usepackage[section]{placeins} % float inside section
+\usepackage{indentfirst}
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{1em}
+
+
+
+% Titre
+\title{Distributed Artificial Intelligence \& Intelligent Agents \\ DAIIA - Homework 1}
+\author{Laurentiu CAPATINA \& Quentin LEMAIRE}
+
+\begin{document}
+
+  \maketitle % build title
+
+  \section{Introduction}
+  
+  The aim of this homework is to discover the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.com/}{http://jade.tilab.com/}} platform. 
+  Through a virtual exhibitions scenario, we will implement agents and behaviors which will let us understand how the framework is working 
+  and how we can create a multi-agent system.
+  
+  
+  \subsection{Agents}
+  
+  In this homework, 3 different agents were implemented according to the scenario of the museum:
+  \begin{itemize}[label=--]
+   \item \textbf{Profiler Agent}: this is the user agent, he can access every information of the user (age, occupation, interest, ...)
+   \item \textbf{Tour Guide Agent}: this is the smart museum agent which build virtual tour for the profiler agent according to interest of the user
+   \item \textbf{Curator Agent}: this is the museum manager, he can access every information about the gallery's artifacts
+  \end{itemize}
+
+  
+  \subsection{Behaviors}
+  
+  Behaviors corresponds to actions an agent can achieve. An agent can belong several behaviors at the same time. In order to improve our knowledge of 
+  the framework, two kinds of behaviors were implemented:
+  \begin{itemize}[label=--]
+   \item \textbf{5 Simple Behaviors}: OneShotBehavior, SimpleAchieveREInitiator, SimpleAchieveREResponder, WakerBehavior, TickerBehavior
+   \item \textbf{2 Composite Behaviors}: ParallelBehavior % TODO add another composite behavior
+  \end{itemize}
+  
+  % aliases
+  \newcommand{\pa}{\textit{Profiler Agent}}
+  \newcommand{\cu}{\textit{Curator Agent}}
+  \renewcommand{\to}{\textit{Tour Guide Agent}}
+  
+  \section{Implementation}
+  
+  % TODO small introduction
+  
+  \subsection{Profiler Agent}
+  
+  Some model has been implemented in order to add concrete properties to the \pa{}. A \textit{User} class has been implemented containing information 
+  about the user such as name, age, gender, interest, occupation, \dots{}
+  
+  During the initialization of the agent, several things are happening. First, all parameters from the command line are retrieved and analyzed in order 
+  to get information about the \cu{}'s name. Then a self implemented behavior -- extending JADE \textit{SimpleAchieveREInitiator} class -- called 
+  \textit{RequestCurator} is created in order to request the \cu{}. The communication is made through \textit{ACLMessage} with the \textit{REQUEST} FIPA 
+  Performative.
+  
+  % TODO ProfilerAgent : WakerBehavior wakes up after 5 seconds => correspond to time of loading the app
+  
+  \subsection{Tour Guide Agent}
+  
+  % TODO
+  
+  \to{} also has a \textit{RequestCurator} behavior in order to request the \cu{}.
+  
+  \subsection{Curator Agent}
+  
+  % TODO
+  % TODO Item / ListItem Model
+  % TODO Update Gallery (TickerBehavior)
+  
+  \subsection{Directory Facilitator (DF)}
+
+  % TODO small introduction to what is DF ?
+  
+  \subsubsection{Register}
+  
+  % TODO to complete
+  The \cu{} and the \to{} both provide one service to DF. The \cu{} registers a service as \textbf{XXXX}. % TODO ADD NAME OF THE SERVICE
+  % TODO ADD INFORMATION ABOUT THE SERVICE HERE
+  The \to{} registers a service as \textbf{XXXXX}. % TODO ADD NAME OF THE SERVICE
+  % TODO ADD INFORMATION ABOUT THE SERVICE HERE
+  
+  \subsubsection{Discover}
+  % TODO to complete
+  The \pa{} wants to use a service but this agent doesn't know where it can find it and how to use it. That's why the agent needs 
+  to request the DF to discover all available (registered) services. Then, this agent can choose which service to use and DF will 
+  answer it with parameters needed to use the service.
+  
+  \subsubsection{Subscribe} % TODO what is this ???
+  
+\end{document}
