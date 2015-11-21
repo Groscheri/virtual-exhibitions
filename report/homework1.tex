@@ -55,7 +55,7 @@
   the framework, two kinds of behaviors were implemented:
   \begin{itemize}[label=--]
    \item \textbf{5 Simple Behaviors}: OneShotBehavior, SimpleAchieveREInitiator, SimpleAchieveREResponder, WakerBehavior, TickerBehavior
-   \item \textbf{2 Composite Behaviors}: ParallelBehavior % TODO add another composite behavior
+   \item \textbf{2 Composite Behaviors}: ParallelBehavior, SequentialBehavior
   \end{itemize}
   
   % aliases
@@ -73,42 +73,84 @@
   about the user such as name, age, gender, interest, occupation, \dots{}
   
   During the initialization of the agent, several things are happening. First, all parameters from the command line are retrieved and analyzed in order 
-  to get information about the \cu{}'s name. Then a self implemented behavior -- extending JADE \textit{SimpleAchieveREInitiator} class -- called 
-  \textit{RequestCurator} is created in order to request the \cu{}. The communication is made through \textit{ACLMessage} with the \textit{REQUEST} FIPA 
-  Performative.
+  to get information about the \cu{}'s name and the interests of the user. Then a self implemented behavior -- extending JADE \textit{SimpleAchieveREInitiator} 
+  class -- called \textit{RequestCurator} is created in order to request the \cu{}. The communication is made through \textit{ACLMessage} with the \textit{REQUEST} 
+  FIPA Performative.
   
-  % TODO ProfilerAgent : WakerBehavior wakes up after 5 seconds => correspond to time of loading the app
+  In order to remain as close as possible to the scenario, a \textit{WakerBehavior} has been implemented at the creation of the agent. After 5 seconds, 
+  all setup actions are launched. This latency corresponds to the loading time of the mobile application.
+  
+  The mobile application represented by this agent has to be displayed. That's why a \textit{SequentialBehavior} has been implemented with the following 
+  sub-behaviors:
+  \vspace{-15pt}
+  \begin{enumerate}
+   \item A behavior to display the list of interests of the user (\textit{OneShotBehavior})
+   \item A behavior to display the button to ask for a virtual tour (\textit{OneShotBehavior})
+   \item A behavior to display the button to get contact information (\textit{OneShotBehavior})
+  \end{enumerate}
   
   \subsection{Tour Guide Agent}
   
-  % TODO
+  % Propose un service de création de virtualTour : Building-virtual-tour
   
-  \to{} also has a \textit{RequestCurator} behavior in order to request the \cu{}.
+  \to{} also has a \textit{RequestCurator} behavior in order to request the \cu{}. This agent is responsible to build virtual tour 
+  according to a list of interests (sent by the \pa{}). That's why it contains a \textit{BuildVirtualTour} behavior (extending \textit{OneShotBehavior}) 
+  has been implemented. This behavior takes the list of interests of the user and requests the \cu{} to compute 
+  the virtual tour. It is also possible to give a specific name to the created virtual tour.
   
   \subsection{Curator Agent}
   
-  % TODO
-  % TODO Item / ListItem Model
-  % TODO Update Gallery (TickerBehavior)
+  The \cu{} corresponds to the ``database'' of the museum. It can access all the artifacts of the museum which are represented as a list 
+  of \textit{Item}s which contain different properties: id, name, creator, creation, place, genre.
+  
+  A \textit{TickerBehavior} called \textit{UpdateGallery} has been implemented in order to update the gallery items each 5 seconds. This 
+  behavior corresponds to the update (buy or sell) of products within the gallery.
+  
+  Meanwhile, a \textit{ParallelBehavior} has been implemented for the purpose of this agent. Two sub-behaviors were created in order to 
+  listen to requests of \to{} and \pa{}. Those behaviors were implemented extending \textit{SimpleAchieveREResponder} behavior.
+
+%   \vspace{-15pt}
+  % [linenos, frame=lines]
+%   \begin{minted}{java}
+%     protected long id;
+%     protected String name;
+%     protected String creator;
+%     protected Date creation;
+%     protected String place;
+%     protected String genre;
+%   \end{minted}
+
+
   
   \subsection{Directory Facilitator (DF)}
 
   % TODO small introduction to what is DF ?
   
-  \subsubsection{Register}
+  \subsubsection{Register} % Obj-complementary-info (Curator) & Building-virtual-tour (TourGuide)
   
   % TODO to complete
-  The \cu{} and the \to{} both provide one service to DF. The \cu{} registers a service as \textbf{XXXX}. % TODO ADD NAME OF THE SERVICE
-  % TODO ADD INFORMATION ABOUT THE SERVICE HERE
-  The \to{} registers a service as \textbf{XXXXX}. % TODO ADD NAME OF THE SERVICE
-  % TODO ADD INFORMATION ABOUT THE SERVICE HERE
   
-  \subsubsection{Discover}
-  % TODO to complete
+  The \cu{} and the \to{} both provide one service to DF. The \cu{} registers a service as \textbf{Obj-complementary-info}.
+  The aim of this service is to provide information about an artifact belonging to the museum gallery.
+  % TODO add more information about the service ? (parameters ?)
+  The \to{} registers a service as \textbf{Building-virtual-tour}. This service retrieves interests of an user and requests 
+  the \cu{} in order to build a virtual tour corresponding to the given interests.
+  % TODO add more information about the service ? (name of the virtual tour ?)
+  
+  \subsubsection{Discover} % search (behavior searchAllServices)
   The \pa{} wants to use a service but this agent doesn't know where it can find it and how to use it. That's why the agent needs 
   to request the DF to discover all available (registered) services. Then, this agent can choose which service to use and DF will 
   answer it with parameters needed to use the service.
   
+  A behavior called \textit{searchAllServices} has been implemented in order to let the \pa{} look for services information.
+  
+  % TODO to complete
+  
   \subsubsection{Subscribe} % TODO what is this ???
+  
+  \section{Conclusion}
+  
+  This homework helped us to understand how JADE works and how to implement a multi-agent system using this framework. The given 
+  scenario let us create a coherent environment.
   
 \end{document}
