@@ -13,13 +13,16 @@ public class BuildVirtualTour extends OneShotBehaviour {
     public BuildVirtualTour() {
         super();
         this.name = "";
+        this.interests = new String[0];
     }
 
     public BuildVirtualTour(String name, String[] interests) {
         super();
         this.name = name;
+        
+        // deep copy
         this.interests = new String[interests.length];
-        for (int i=0; i<interests.length; i++){
+        for(int i=0; i < interests.length; i++) {
             this.interests[i] = interests[i];
         }
     }

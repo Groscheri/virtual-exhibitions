@@ -10,12 +10,11 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
-import jade.proto.states.MsgReceiver;
 import java.util.ArrayList;
 
 /**
  * CuratorAgent class
- * Monitor art gallery
+ * Monitor art gallery (database) : check update
  * - answer `ProfilerAgent` with details about items stored in the gallery
  * - answer `TourGuideAgent` with details about items in order to build virtualTour
  */
@@ -26,14 +25,17 @@ public class CuratorAgent extends Agent {
     protected void setup() {
         // init
         
-        // TODO : add 2 behaviors to listen to incoming messages from ProfilerAgent and TourGuideAgent
+        // create parallel behavior to listen to requests
         ParallelBehaviour parallel = new ParallelBehaviour();
         parallel.addSubBehaviour(new ListenProfiler(this));
         parallel.addSubBehaviour(new ListenTourGuide(this));
-        addBehaviour(new UpdateGallery(this, 5000));
-        //Add service for complementary information
+        
+        // create an update behavior to take gallery up to date
+        this.addBehaviour(new UpdateGallery(this, 5000));
+        
+        // create & register service for complementary information
         DFAgentDescription dfd = new DFAgentDescription();
-        dfd.setName(getAID());
+        dfd.setName(this.getAID());
         ServiceDescription sd = new ServiceDescription();
         sd.setType("object-info");
         sd.setName("Obj-complementary-info");
@@ -66,7 +68,8 @@ public class CuratorAgent extends Agent {
     }
     
     protected void takeDown(){
-        try{
+        // unregister service from this agent
+        try {
             DFService.deregister(this);
         }
         catch(FIPAException fe){

@@ -18,39 +18,52 @@ public class TourGuideAgent extends Agent {
     protected void setup() {
         // init
         
+        // retrieve curator's name before requesting him (from arguments)
         Object[] args = this.getArguments();
-        
         String curatorName = "cucu";
         if (args != null && args.length > 0) {
             curatorName = (String)args[0]; // custom curator name
-        }
-        requestCurator(this.getLocalName());
+        }  
+        // request curator (example)
+        requestCurator(curatorName);
+        
+        // create & register service to build a virtual tour
         DFAgentDescription dfd = new DFAgentDescription();
-        dfd.setName(getAID());
+        dfd.setName(this.getAID());
         ServiceDescription sd = new ServiceDescription();
         sd.setType("build-tour");
         sd.setName("Building-virtual-tour");
         dfd.addServices(sd);
-        try{
+        try {
             DFService.register(this, dfd);
         } catch (FIPAException fe){
             fe.printStackTrace();
         }
-        // TODO add behavior which wait for requests from ProfilerAgent
     }
     
+    /**
+     * Build virtual tour
+     * @param name name of the virtual tour
+     * @param interests interests of the user in order to build an adapted 
+     * virtual tour
+     */
     protected void buildVirtualTour(String name, String[] interests) {
         //TODO add interests
         this.addBehaviour(new BuildVirtualTour(name, interests));
     }
     
+    /**
+     * Request curator
+     * @param name name of the curator
+     */
     protected void requestCurator(String name) {
         this.addBehaviour(new RequestCurator(this, name));
     }
     
     protected void takeDown(){
-        try{
-            DFService.deregister(this);
+        // ending
+        try {
+            DFService.deregister(this); // unregister
         }
         catch(FIPAException fe){
             fe.printStackTrace();
