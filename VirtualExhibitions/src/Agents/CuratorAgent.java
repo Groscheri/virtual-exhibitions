@@ -2,9 +2,14 @@ package Agents;
 
 import Behaviors.ListenProfiler;
 import Behaviors.ListenTourGuide;
+import Behaviors.UpdateGallery;
 import Model.Item;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.proto.states.MsgReceiver;
 import java.util.ArrayList;
 
@@ -25,11 +30,21 @@ public class CuratorAgent extends Agent {
         ParallelBehaviour parallel = new ParallelBehaviour();
         parallel.addSubBehaviour(new ListenProfiler(this));
         parallel.addSubBehaviour(new ListenTourGuide(this));
+        addBehaviour(new UpdateGallery(this, 5000));
+        //Add service for complementary information
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("object-info");
+        sd.setName("Obj-complementary-info");
+        dfd.addServices(sd);
+        try{
+            DFService.register(this, dfd);
+        } catch (FIPAException fe){
+            fe.printStackTrace();
+        }
         
         this.addBehaviour(parallel);
-        
-        // TODO
-        //new MsgReceiver(this, mt, D_ACTIVE, s, this)
     }
     
     /**
@@ -48,5 +63,14 @@ public class CuratorAgent extends Agent {
             this.galleryItems = list;
         }
         return this.galleryItems;
+    }
+    
+    protected void takeDown(){
+        try{
+            DFService.deregister(this);
+        }
+        catch(FIPAException fe){
+            fe.printStackTrace();
+        }
     }
 }
