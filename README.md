@@ -45,6 +45,7 @@ updated by the agent. This action will then be repeated each 5 seconds.
 
 3. Create a TourGuideAgent called "to" without any argument
 Several actions will take place:
+
 - TourGuideAgent will register one service
 - ProfilerAgent will be notified by this registration
 - TourGuideAgent will send a message (ACLMessage) to CuratorAgent "cucu"
