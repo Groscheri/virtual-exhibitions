@@ -11,7 +11,6 @@
 \usepackage[usenames, dvipsnames]{xcolor} % color
 \usepackage[framemethod=TikZ]{mdframed} % box
 \usepackage{listings} % code
-\usepackage{minted} % code
 \usepackage{amsmath} % align* maths
 \usepackage{wrapfig}
 \usepackage[bookmarks, hidelinks]{hyperref} % clickable links
@@ -35,27 +34,26 @@
   \section{Introduction}
   
   The aim of this homework is to discover the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.com/}{http://jade.tilab.com/}} platform. 
-  Through a virtual exhibitions scenario, we will implement agents and behaviors which will let us understand how the framework is working 
-  and how we can create a multi-agent system.
+  Based on a virtual exhibitions scenario, we will implement agents and behaviors which will give us a deep understanding of the JADE framework 
+  and of the creation of a multi-agent system.
   
   
   \subsection{Agents}
   
   In this homework, 3 different agents were implemented according to the scenario of the museum:
   \begin{itemize}[label=--]
-   \item \textbf{Profiler Agent}: this is the user agent, he can access every information of the user (age, occupation, interest, ...)
-   \item \textbf{Tour Guide Agent}: this is the smart museum agent which build virtual tour for the profiler agent according to interest of the user
-   \item \textbf{Curator Agent}: this is the museum manager, he can access every information about the gallery's artifacts
+   \item \textbf{Profiler Agent}: this is the user agent, he can access information of the user (age, occupation, interest, ...)
+   \item \textbf{Tour Guide Agent}: this is the smart museum agent which builds virtual tours for profiler agents according to their interest
+   \item \textbf{Curator Agent}: this is the museum manager, he can access information about the gallery's artifacts
   \end{itemize}
 
   
   \subsection{Behaviors}
   
-  Behaviors corresponds to actions an agent can achieve. An agent can belong several behaviors at the same time. In order to improve our knowledge of 
-  the framework, two kinds of behaviors were implemented:
+  Behaviors corresponds to actions an agent can achieve. An agent has several behaviors. Two types of behaviors were implemented:
   \begin{itemize}[label=--]
    \item \textbf{5 Simple Behaviors}: OneShotBehavior, SimpleAchieveREInitiator, SimpleAchieveREResponder, WakerBehavior, TickerBehavior
-   \item \textbf{2 Composite Behaviors}: ParallelBehavior, SequentialBehavior
+   \item \textbf{3 Composite Behaviors}: ParallelBehavior, SequentialBehavior, SubscriptionInitiator
   \end{itemize}
   
   % aliases
@@ -65,19 +63,22 @@
   
   \section{Implementation}
   
-  % TODO small introduction
+  The virtual exhibition is defined by the 3 types of agents previously mentioned and which communicate between as following: the profiler sends its
+  interests which will be used by the tour guide for building a personalised tour. Based on the tour obtained, the profiler asks complementary
+  the curator information about certain objects. Based on this simple scenario, several behaviors were implemented. The aim was not to create an
+  exhaustive implementation but to have certain parts of the scenario which outline the key behaviors.
   
   \subsection{Profiler Agent}
   
-  Some model has been implemented in order to add concrete properties to the \pa{}. A \textit{User} class has been implemented containing information 
-  about the user such as name, age, gender, interest, occupation, \dots{}
+  A model has been implemented in order to add specific properties to the \pa{}. A \textit{User} class has been implemented containing information 
+  such as name, age, gender, interest, occupation, \dots{}
   
-  During the initialization of the agent, several things are happening. First, all parameters from the command line are retrieved and analyzed in order 
-  to get information about the \cu{}'s name and the interests of the user. Then a self implemented behavior -- extending JADE \textit{SimpleAchieveREInitiator} 
-  class -- called \textit{RequestCurator} is created in order to request the \cu{}. The communication is made through \textit{ACLMessage} with the \textit{REQUEST} 
+  During initialization, several steps were implemented. Firstly, parameters from the command line are retrieved in order 
+  to get information about the \cu{}'s interests. Then a self implemented behavior called \textit{RequestCurator} and extending JADE \textit{SimpleAchieveREInitiator} 
+  class wass created in order to request the \cu{}. The communication is made through \textit{ACLMessage} with the \textit{REQUEST} 
   FIPA Performative.
   
-  In order to remain as close as possible to the scenario, a \textit{WakerBehavior} has been implemented at the creation of the agent. After 5 seconds, 
+  In order to remain as close as possible to the scenario, a \textit{WakerBehavior} has been implemented for the profile agent. After 5 seconds, 
   all setup actions are launched. This latency corresponds to the loading time of the mobile application.
   
   The mobile application represented by this agent has to be displayed. That's why a \textit{SequentialBehavior} has been implemented with the following 
@@ -93,20 +94,20 @@
   
   % Propose un service de création de virtualTour : Building-virtual-tour
   
-  \to{} also has a \textit{RequestCurator} behavior in order to request the \cu{}. This agent is responsible to build virtual tour 
-  according to a list of interests (sent by the \pa{}). That's why it contains a \textit{BuildVirtualTour} behavior (extending \textit{OneShotBehavior}) 
-  has been implemented. This behavior takes the list of interests of the user and requests the \cu{} to compute 
-  the virtual tour. It is also possible to give a specific name to the created virtual tour.
+  Like the previous agent, \to{} also has a \textit{RequestCurator} behavior in order to request the \cu{}. This agent is responsible for building virtual tours 
+  according to a list of interests (sent by the \pa{}). That's why it contains a \textit{BuildVirtualTour} behavior (extending \textit{OneShotBehavior}). 
+  This behavior takes the list of interests of the user and requests the \cu{} to compute the virtual tour. It is also possible to give a 
+  specific name to the created virtual tour.
   
   \subsection{Curator Agent}
   
-  The \cu{} corresponds to the ``database'' of the museum. It can access all the artifacts of the museum which are represented as a list 
+  The \cu{} could be seen as the ``database'' of the museum. It can access all the artifacts of the museum which are represented as a list 
   of \textit{Item}s which contain different properties: id, name, creator, creation, place, genre.
   
   A \textit{TickerBehavior} called \textit{UpdateGallery} has been implemented in order to update the gallery items each 5 seconds. This 
   behavior corresponds to the update (buy or sell) of products within the gallery.
   
-  Meanwhile, a \textit{ParallelBehavior} has been implemented for the purpose of this agent. Two sub-behaviors were created in order to 
+  Moreover, a \textit{ParallelBehavior} has been implemented for this agent. Two sub-behaviors were created in order to 
   listen to requests of \to{} and \pa{}. Those behaviors were implemented extending \textit{SimpleAchieveREResponder} behavior.
 
 %   \vspace{-15pt}
@@ -124,29 +125,38 @@
   
   \subsection{Directory Facilitator (DF)}
 
-  % TODO small introduction to what is DF ?
+  The DF can be seen as a sort of ``Yellow pages''. Each FIPA compliant platform already hosts a default DF agent. In other words, the DF agent
+  contains a centralised list of services offered by other agents on the platform. In order for a service to be on this specific list, 
+  the agent has to register it so that other agents could later identify it.
   
   \subsubsection{Register} % Obj-complementary-info (Curator) & Building-virtual-tour (TourGuide)
-  
-  % TODO to complete
-  
   The \cu{} and the \to{} both provide one service to DF. The \cu{} registers a service as \textbf{Obj-complementary-info}.
-  The aim of this service is to provide information about an artifact belonging to the museum gallery.
-  % TODO add more information about the service ? (parameters ?)
-  The \to{} registers a service as \textbf{Building-virtual-tour}. This service retrieves interests of an user and requests 
-  the \cu{} in order to build a virtual tour corresponding to the given interests.
-  % TODO add more information about the service ? (name of the virtual tour ?)
+  The aim of this service is to provide complementary information about an artifact belonging to the museum gallery. Moreover, it has a type
+  of \textbf{object-info} which will enable to be easier found in the DF agent. According to the scenario, it should be called 
+  by the \pa{} after receiving a guided tour from the \to{}. The \to{} registers a service as \textbf{Building-virtual-tour}. 
+  This service retrieves interests of an user and requests the \cu{} in order to build a virtual tour corresponding to the given interests.
+  A type was also associated to this service in order to facilitate the research of it: \textbf{build-tour}.
+  
+  On the other hand, the registered services are deleted from the DF agent at the moment when the agent which offers the specific service is deleted.
+  This is done in the \textit{takeDown} method of an agent and the process is called deregistration.
   
   \subsubsection{Discover} % search (behavior searchAllServices)
-  The \pa{} wants to use a service but this agent doesn't know where it can find it and how to use it. That's why the agent needs 
+  The \pa{} wants to use a service but the agent doesn't know where it can find it and how to use it. That's why the agent needs 
   to request the DF to discover all available (registered) services. Then, this agent can choose which service to use and DF will 
-  answer it with parameters needed to use the service.
+  return the parameters needed to use the service. The research in the DF can be done by using templates or constraints. Moreover,
+  there is also the possibility to use a blocking research called \textit{searchUntilFound} which waits for a returned service in order to continue execution.
   
-  A behavior called \textit{searchAllServices} has been implemented in order to let the \pa{} look for services information.
+  A behavior called \textit{searchAllServices} has been implemented in order to let the \pa{} look for services information. This behavior
+  enables the possibility to choose a service among those displayed in the console and the parameters needed will be displayed in the standard output as well.
+  In this case, as the \pa{} wants all services, we use neither a template nor constraints.
   
-  % TODO to complete
-  
-  \subsubsection{Subscribe} % TODO what is this ???
+  \subsubsection{Subscribe}
+  The subscription process works as following: an agent sends a create subscription message to the DF agent and it will be notified once a
+  service corresponding to its demand will pe present in the DF. We used this process for the \pa{}. The main goal for this agent is to be
+  able to ask the \to{} to build him a guided tour. Consequently, the \pa{} uses subscription to be informed when a DF service of type
+  \textbf{build-tour} exists in the DF. For the purpose of initializing this communication via subscription, a composite behavior called
+  \textit{SubscriptionInitiator} was used which sends a \textit{createSubscriptionMessage} to the DF agent. When a corresponding service is
+  registered, the \pa{} is notified.
   
   \section{Conclusion}
   
