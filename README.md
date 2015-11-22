@@ -44,7 +44,7 @@ register a service to DF. Then, wait at least 5 seconds, the gallery will be
 updated by the agent. This action will then be repeated each 5 seconds.
 
 3. Create a TourGuideAgent called "to" without any argument
-Several things will append:
+Several actions will take place:
 - TourGuideAgent will register one service
 - ProfilerAgent will be notified by this registration
 - TourGuideAgent will send a message (ACLMessage) to CuratorAgent "cucu"
