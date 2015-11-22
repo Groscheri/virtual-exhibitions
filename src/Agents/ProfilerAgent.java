@@ -109,6 +109,7 @@ public class ProfilerAgent extends Agent {
                         
                     }
                 });
+                System.out.println("Subscription done !");
             }
           
         });

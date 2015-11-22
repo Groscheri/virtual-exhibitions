@@ -41,12 +41,14 @@ public class CuratorAgent extends Agent {
         sd.setName("Obj-complementary-info");
         dfd.addServices(sd);
         try{
+            System.out.println("[CU] Service registered");
             DFService.register(this, dfd);
         } catch (FIPAException fe){
             fe.printStackTrace();
         }
         
         this.addBehaviour(parallel);
+        System.out.println("Listening to TourGuide & Profiler");
     }
     
     /**
@@ -70,6 +72,7 @@ public class CuratorAgent extends Agent {
     protected void takeDown(){
         // unregister service from this agent
         try {
+            System.out.println("[CU] Service deregistered");
             DFService.deregister(this);
         }
         catch(FIPAException fe){

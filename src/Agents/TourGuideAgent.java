@@ -35,6 +35,7 @@ public class TourGuideAgent extends Agent {
         sd.setName("Building-virtual-tour");
         dfd.addServices(sd);
         try {
+            System.out.println("[TO] Service registered");
             DFService.register(this, dfd);
         } catch (FIPAException fe){
             fe.printStackTrace();
@@ -63,6 +64,7 @@ public class TourGuideAgent extends Agent {
     protected void takeDown(){
         // ending
         try {
+            System.out.println("[TO] Service deregistered");
             DFService.deregister(this); // unregister
         }
         catch(FIPAException fe){
