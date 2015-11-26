@@ -16,8 +16,8 @@ public abstract class Request extends SimpleAchieveREInitiator {
     
     public Request(Agent a, String to) {
         super(a, null);
-        this.request = new ACLMessage(ACLMessage.REQUEST);
-        this.request.setProtocol(FIPAProtocolNames.FIPA_REQUEST);
+        this.request = new ACLMessage(ACLMessage.SUBSCRIBE);
+        this.request.setProtocol(FIPAProtocolNames.FIPA_SUBSCRIBE);
         this.request.addReceiver(new AID(to, AID.ISLOCALNAME));
     }
 
@@ -25,7 +25,4 @@ public abstract class Request extends SimpleAchieveREInitiator {
     protected ACLMessage prepareRequest(ACLMessage msg) {
         return super.prepareRequest(this.request);
     }
-    
-    
-    
 }
