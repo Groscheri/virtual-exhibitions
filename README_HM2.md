@@ -32,6 +32,22 @@ about the agent.
 
 ### Tests
 
-Create different agents in this order to test different scenarios:
+#### Task 1
+
+Create different agents in this order to test communication scenario:
+1. Create a CuratorAgent called "cucu" without any argument
+CuratorAgent will start listening to TourGuide & Profiler agents (info requests)
+
+2. Create a TourGuideAgent called "toto" without any argument
+TourGuideAgent will start listening to Profiler agent (build tour requests)
+
+3. Create a ProfilerAgent called "pro" without any argument
+Wait at least 2 seconds, the ProfilerAgent will wake up and send a "build tour" 
+request to TourGuideAgent. Then, the TourGuide agent will make an info request 
+to CuratorAgent in order to get information about artifacts in the virtual 
+museum. When it receives information about artifacts, it builds the virtual tour 
+and answers the ProfilerAgent.
+Finally, the ProfilerAgent send an info request to the Curator agent to get 
+information about items it received (from TourGuide agent) in the virtual tour.
 
 
