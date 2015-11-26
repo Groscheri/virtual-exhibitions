@@ -6,22 +6,20 @@ import jade.domain.FIPAAgentManagement.NotUnderstoodException;
 import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.proto.FIPAProtocolNames;
 import jade.proto.SimpleAchieveREResponder;
 
 /**
  * Listen abstract class
  */
 public abstract class Listen extends SimpleAchieveREResponder {
-    public Listen(Agent a) {
+    public Listen(Agent a, String conversationId) {
         super(a, null);
-        MessageTemplate mt = SimpleAchieveREResponder.createMessageTemplate(FIPAProtocolNames.FIPA_REQUEST);
+        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.SUBSCRIBE), MessageTemplate.MatchConversationId(conversationId));
         this.reset(mt);
     }
 
     @Override
     protected ACLMessage prepareResponse(ACLMessage request) throws NotUnderstoodException, RefuseException {
-        System.out.println("Preparing response !");
         return super.prepareResponse(request);
     }
     

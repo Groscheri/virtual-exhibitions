@@ -1,7 +1,8 @@
 package Agents;
 
 import Behaviors.BuildVirtualTour;
-import Behaviors.RequestCurator;
+import Behaviors.ListenTour;
+import Behaviors.RequestInfo;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -23,9 +24,7 @@ public class TourGuideAgent extends Agent {
         String curatorName = "cucu";
         if (args != null && args.length > 0) {
             curatorName = (String)args[0]; // custom curator name
-        }  
-        // request curator (example)
-        requestCurator(curatorName);
+        }
         
         // create & register service to build a virtual tour
         DFAgentDescription dfd = new DFAgentDescription();
@@ -35,10 +34,16 @@ public class TourGuideAgent extends Agent {
         sd.setName("Building-virtual-tour");
         dfd.addServices(sd);
         try {
+            //System.out.println("[TO] Service registered");
             DFService.register(this, dfd);
         } catch (FIPAException fe){
             fe.printStackTrace();
         }
+        
+        // listen for build-tour requests
+        this.addBehaviour(new ListenTour(this));
+        System.out.println("[TO] Listening to Profiler to build virtual tour.");
+        
     }
     
     /**
@@ -52,17 +57,11 @@ public class TourGuideAgent extends Agent {
         this.addBehaviour(new BuildVirtualTour(name, interests));
     }
     
-    /**
-     * Request curator
-     * @param name name of the curator
-     */
-    protected void requestCurator(String name) {
-        this.addBehaviour(new RequestCurator(this, name));
-    }
     
     protected void takeDown(){
         // ending
         try {
+            //System.out.println("[TO] Service deregistered");
             DFService.deregister(this); // unregister
         }
         catch(FIPAException fe){

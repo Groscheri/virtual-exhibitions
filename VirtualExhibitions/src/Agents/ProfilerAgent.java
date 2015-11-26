@@ -1,10 +1,19 @@
 package Agents;
-import Behaviors.RequestCurator;
+import Behaviors.RequestInfo;
+import Behaviors.RequestTour;
 import Behaviors.SearchAllServices;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.core.behaviours.WakerBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.SearchConstraints;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+import jade.proto.SubscriptionInitiator;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -24,8 +33,8 @@ public class ProfilerAgent extends Agent {
     protected void setup() {
         // init
         
-        // Load application (this takes 5000ms)
-        this.addBehaviour(new WakerBehaviour(this, 5000) {
+        // Load application (this task is loaded after 2000ms)
+        this.addBehaviour(new WakerBehaviour(this, 2000) {
             @Override
             protected void onWake() {
                 System.out.println("Application loaded after "+ new Date(this.getWakeupTime()));
@@ -40,7 +49,7 @@ public class ProfilerAgent extends Agent {
                 }
 
                 // look for services
-                this.myAgent.addBehaviour(new SearchAllServices(this.getAgent()));
+                //this.myAgent.addBehaviour(new SearchAllServices(this.getAgent()));
                 
                 /* 
                 Sequential behavior:
@@ -69,6 +78,40 @@ public class ProfilerAgent extends Agent {
                 });
                 
                 this.myAgent.addBehaviour(seq);
+                
+                /*
+                Add Subscription behavior:
+                1- create subscription message
+                2- handle inform message
+                3- decode information
+                */
+                /*DFAgentDescription template = new DFAgentDescription();
+                ServiceDescription sd = new ServiceDescription();
+                sd.setType("build-tour");
+                template.addServices(sd);
+                SearchConstraints sc = new SearchConstraints();
+                sc.setMaxResults(new Long(1));
+                
+                this.myAgent.addBehaviour(new SubscriptionInitiator(this.myAgent, 
+                        DFService.createSubscriptionMessage(myAgent, getDefaultDF(), template, sc)){
+                    @Override
+                    protected void handleInform(ACLMessage inform) {
+                        try {
+                            DFAgentDescription[] dfds =
+                                    DFService.decodeNotification(inform.getContent());
+                            if(dfds.length > 0){
+                                //System.out.println("Notification for profiler after subscription: "+dfds[0].getName());
+                            }
+                        } catch (FIPAException ex) {
+                            ex.printStackTrace();
+                        }
+                        
+                    }
+                });
+                System.out.println("Subscription done !");*/
+                
+                this.myAgent.addBehaviour(new RequestTour(this.myAgent, "toto", interests));
+                
             }
           
         });
@@ -77,14 +120,7 @@ public class ProfilerAgent extends Agent {
     @Override
     protected void takeDown() {
         // ending
-        System.out.println("Ending " + this.getAID().getName() + "!");
+        //System.out.println("Ending " + this.getAID().getName() + "!");
     }
-    
-    /**
-     * Request Curator
-     * @param name name of the curator
-     */
-    public void requestCurator(String name) {
-        this.addBehaviour(new RequestCurator(this, name));
-    }
+
 }

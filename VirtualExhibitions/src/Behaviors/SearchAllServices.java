@@ -23,7 +23,6 @@ public class SearchAllServices extends OneShotBehaviour {
     
     @Override
     public void action(){
-        ServiceDescription sd = new ServiceDescription();
         try {
             // search for services
             DFAgentDescription[] result = DFService.search(this.myAgent, null);
@@ -37,28 +36,30 @@ public class SearchAllServices extends OneShotBehaviour {
                     System.out.println("Service "+nbServices+": " + s.getName());
                 }
             }
-            
-            System.out.println("Enter number of service:");
-            try {
-                BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-                String s = bufferRead.readLine();
-                int nbChosen = Integer.parseInt(s);
-                int nb = 0;
-                for(int i = 0; i < result.length; i++) {
-                    Iterator it = result[i].getAllServices();
-                    while(it.hasNext()) {
-                        nb++;
-                        if(nb == nbChosen){
-                            ServiceDescription a = (ServiceDescription) it.next();
-                            System.out.println("Information for service "+nb+":\n\t- type: "+a.getType()+"\n\t- name: "+a.getName()+"\n\t- languages: "+ a.getAllLanguages().toString());
-                        } else{
-                            it.next();
+            if(nbServices > 0){
+                System.out.println("Enter number of service:");
+                try {
+                    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+                    String s = bufferRead.readLine();
+                    int nbChosen = Integer.parseInt(s);
+                    int nb = 0;
+                    for(int i = 0; i < result.length; i++) {
+                        Iterator it = result[i].getAllServices();
+                        while(it.hasNext()) {
+                            nb++;
+                            if(nb == nbChosen){
+                                ServiceDescription a = (ServiceDescription) it.next();
+                                System.out.println("Information for service "+nb+":\n\t- type: "+a.getType()+"\n\t- name: "+a.getName()+"\n\t- languages: "+ a.getAllLanguages().toString());
+                            } else{
+                                it.next();
+                            }
                         }
                     }
+                } catch(IOException e){
+                    e.printStackTrace();
                 }
-            } catch(IOException e){
-                e.printStackTrace();
             }
+            
             
         } catch(FIPAException fe){
             fe.printStackTrace();

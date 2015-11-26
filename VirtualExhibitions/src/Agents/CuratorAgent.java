@@ -1,7 +1,7 @@
 package Agents;
 
-import Behaviors.ListenProfiler;
-import Behaviors.ListenTourGuide;
+import Behaviors.ListenInfo;
+import Behaviors.ListenTour;
 import Behaviors.UpdateGallery;
 import Model.Item;
 import jade.core.Agent;
@@ -25,13 +25,8 @@ public class CuratorAgent extends Agent {
     protected void setup() {
         // init
         
-        // create parallel behavior to listen to requests
-        ParallelBehaviour parallel = new ParallelBehaviour();
-        parallel.addSubBehaviour(new ListenProfiler(this));
-        parallel.addSubBehaviour(new ListenTourGuide(this));
-        
         // create an update behavior to take gallery up to date
-        this.addBehaviour(new UpdateGallery(this, 5000));
+        //this.addBehaviour(new UpdateGallery(this, 5000));
         
         // create & register service for complementary information
         DFAgentDescription dfd = new DFAgentDescription();
@@ -41,12 +36,14 @@ public class CuratorAgent extends Agent {
         sd.setName("Obj-complementary-info");
         dfd.addServices(sd);
         try{
+            //System.out.println("[CU] Service registered");
             DFService.register(this, dfd);
         } catch (FIPAException fe){
             fe.printStackTrace();
         }
         
-        this.addBehaviour(parallel);
+        this.addBehaviour(new ListenInfo(this));
+        System.out.println("[CU] Listening to TourGuide & Profiler");
     }
     
     /**
@@ -57,19 +54,30 @@ public class CuratorAgent extends Agent {
     private ArrayList<Item> getItems() {
         if (this.galleryItems == null) {
             ArrayList<Item> list = new ArrayList<>();
-            list.add(new Item("La Joconde", "Da Vinci", "Painting"));
-            list.add(new Item("Imagine", "John Lenon", "Music"));
-            list.add(new Item("Guernica", "Picasso", "Painting"));
-            list.add(new Item("Wheatfield with Crows", "Van Gogh", "Painting"));
-            list.add(new Item("A beautiful mind", "Unknown", "Movie"));
+            list.add(new Item(1L, "La Joconde", "Da Vinci", "Painting"));
+            list.add(new Item(2L, "Imagine", "John Lenon", "Music"));
+            list.add(new Item(3L, "Guernica", "Picasso", "Painting"));
+            list.add(new Item(4L, "Wheatfield with Crows", "Van Gogh", "Painting"));
+            list.add(new Item(5L, "A beautiful mind", "Unknown", "Movie"));
             this.galleryItems = list;
         }
         return this.galleryItems;
     }
     
+    public Item getItemById(Long id) {
+        ArrayList<Item> items = this.getItems();
+        for (Item i : items) {
+            if (i.getId() == id) {
+                return i;
+            }
+        }
+        return null;
+    }
+    
     protected void takeDown(){
         // unregister service from this agent
         try {
+            //System.out.println("[CU] Service deregistered");
             DFService.deregister(this);
         }
         catch(FIPAException fe){
