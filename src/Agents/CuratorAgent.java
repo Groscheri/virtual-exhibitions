@@ -1,5 +1,6 @@
 package Agents;
 
+import Behaviors.ListenArtistManager;
 import Behaviors.ListenProfiler;
 import Behaviors.ListenTourGuide;
 import Behaviors.UpdateGallery;
@@ -20,15 +21,28 @@ import java.util.ArrayList;
  */
 public class CuratorAgent extends Agent {
     protected ArrayList<Item> galleryItems;
+    private int valToSpend;
+    
     
     @Override
     protected void setup() {
-        // init
+        // get value to spend in auction
+        Object[] args = this.getArguments();
+        if (args != null && args.length > 0) {
+            try{
+                valToSpend = Integer.parseInt((String) args[0]);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            valToSpend = 900;
+        }
         
         // create parallel behavior to listen to requests
         ParallelBehaviour parallel = new ParallelBehaviour();
         parallel.addSubBehaviour(new ListenProfiler(this));
         parallel.addSubBehaviour(new ListenTourGuide(this));
+       // parallel.addSubBehaviour(new ListenArtistManager(this));
         
         // create an update behavior to take gallery up to date
         this.addBehaviour(new UpdateGallery(this, 5000));
@@ -47,7 +61,9 @@ public class CuratorAgent extends Agent {
             fe.printStackTrace();
         }
         
-        this.addBehaviour(parallel);
+        //this.addBehaviour(parallel);
+        //TODO - get max value in param
+        this.addBehaviour(new ListenArtistManager(this, valToSpend));
         System.out.println("Listening to TourGuide & Profiler");
     }
     
