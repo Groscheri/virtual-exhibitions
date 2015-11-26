@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Item {
     
-    protected long id;
+    protected Long id;
     protected String name;
     protected String creator;
     protected Date creation;
@@ -38,8 +38,8 @@ public class Item {
         this.genre = genre;
     }
     
-    public Item(String name, String creator, String genre) {
-        this.id = 0L; // TODO generate random uuid4
+    public Item(Long id, String name, String creator, String genre) {
+        this.id = id;
         this.name = name;
         this.creator = creator;
         this.creation = new Date();
@@ -51,7 +51,7 @@ public class Item {
         return this.id;
     }
     
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
