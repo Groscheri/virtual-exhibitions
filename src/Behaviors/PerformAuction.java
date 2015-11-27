@@ -21,13 +21,19 @@ public class PerformAuction extends Behaviour {
     private List<AID> curators;
     private int step = 0;
     private int value;
-    private final long TIMEOUT = 5000;
+    private int stepValue;
+    private int minValue;
+    private Boolean priceSuggested;
+    private final long TIMEOUT = 3000;
     
-    public PerformAuction(Agent a, List<AID> c){
+    public PerformAuction(Agent a, List<AID> c, int value, int stepValue, int minValue){
         super();
         this.setAgent(a);
         curators = c;
-        value = 1000;
+        this.value = value;
+        this.stepValue = stepValue;
+        this.minValue = minValue;
+        priceSuggested = false;
     }
     
     @Override
@@ -35,15 +41,26 @@ public class PerformAuction extends Behaviour {
         switch(step){
             case 0:
                 //Send cfp with value to all curators
+                if(priceSuggested){
+                    //Decrease auction
+                    value -= stepValue;
+                    //Check if value is not under the minimal prise
+                    if(value < minValue){
+                        step = 2;
+                        System.out.println("[AUCTION] Auction finished without selling!");
+                        break;
+                    }
+                }
                 ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
                 for (int i = 0; i < curators.size(); ++i) {
                 cfp.addReceiver(curators.get(i));
                 }
                 cfp.setContent(""+value);
-                cfp.setConversationId("auction-from-"+this.myAgent.getLocalName());
+                cfp.setConversationId("auction");
                 cfp.setReplyWith("cfp"+System.currentTimeMillis());
                 this.myAgent.send(cfp);
-                System.out.println("Offer sent for "+value);
+                System.out.println("[AUCTION] Offer sent for "+value);
+                priceSuggested = true;
                 step = 1;
                 break;
             case 1:
@@ -52,9 +69,10 @@ public class PerformAuction extends Behaviour {
                 ACLMessage reply = this.myAgent.blockingReceive(template, TIMEOUT);
                 if(reply != null){
                     //a curator accepted the offer
-                    System.out.println("Auction finished! Product goes to " + reply.getSender().getLocalName());
+                    System.out.println("[AUCTION] Auction finished! Product goes to " + reply.getSender().getLocalName());
                     step = 2;
                 } else {
+                    System.out.println("[AUCTION] No curator auctioned for "+value);
                     step = 0;
                 }
                 break;

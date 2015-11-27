@@ -1,8 +1,6 @@
 package Agents;
 
 import Behaviors.ListenArtistManager;
-import Behaviors.ListenProfiler;
-import Behaviors.ListenTourGuide;
 import Behaviors.ListenInfo;
 import Behaviors.ListenTour;
 import Behaviors.UpdateGallery;

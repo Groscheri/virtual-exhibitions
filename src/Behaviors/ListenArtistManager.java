@@ -11,6 +11,7 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPAAgentManagement.NotUnderstoodException;
 import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ListenArtistManager extends CyclicBehaviour {
     }
     
     public void action(){
-        ACLMessage msg = myAgent.receive();
+        ACLMessage msg = myAgent.receive(MessageTemplate.MatchConversationId("auction"));
         if(msg != null){
             int auctionValue = Integer.parseInt(msg.getContent());
             if(auctionValue <= value){
