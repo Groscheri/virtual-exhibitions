@@ -34,20 +34,28 @@ public class ListenArtistManager extends CyclicBehaviour {
     public void action(){
         ACLMessage msg = myAgent.receive(MessageTemplate.MatchConversationId("auction"));
         if(msg != null){
-            int auctionValue = Integer.parseInt(msg.getContent());
-            if(first == 0){
-                first = auctionValue;
-            }
-            if(strategy.applyStrategy(auctionValue, first, nbTimes)){
-            //if(auctionValue <= value){
-                //Accept offer
-                ACLMessage reply = msg.createReply();
-                reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                reply.setContent("buy-product");
-                this.myAgent.send(reply);
-            } else {
-                nbTimes ++;
-                block();
+            if(msg.getPerformative() == ACLMessage.CFP){
+                int auctionValue = Integer.parseInt(msg.getContent());
+                if(first == 0){
+                    first = auctionValue;
+                }
+                if(strategy.applyStrategy(auctionValue, first, nbTimes)){
+                //if(auctionValue <= value){
+                    //Accept offer
+                    ACLMessage reply = msg.createReply();
+                    reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                    reply.setContent("buy-product");
+                    this.myAgent.send(reply);
+                    nbTimes = 0;
+                } else {
+                    nbTimes ++;
+                    block();
+                }
+            } else if(msg.getPerformative() == ACLMessage.CANCEL) {
+                nbTimes = 0;
+            } else if(msg.getPerformative() == ACLMessage.CONFIRM){
+                nbTimes = 0;
+                System.out.println("[AUCTION] Confirmation for auction received by "+this.myAgent.getLocalName());
             }
         } else{
             block();

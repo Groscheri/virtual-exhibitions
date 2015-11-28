@@ -33,7 +33,7 @@ public class AuctionStrategy {
         public Boolean applyStrategy(int value, int first, int nbTimes){
             switch(idStrategy){
                 case 1:
-                    return nbTimes > nbOffers;
+                    return nbTimes >= nbOffers;
                 case 2:
                     return ((value / (float)first * 100) - percentage)<= 0.001;
                 case 3:

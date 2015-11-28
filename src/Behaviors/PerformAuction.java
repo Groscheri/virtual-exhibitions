@@ -70,6 +70,24 @@ public class PerformAuction extends Behaviour {
                 if(reply != null){
                     //a curator accepted the offer
                     System.out.println("[AUCTION] Auction finished! Product goes to " + reply.getSender().getLocalName());
+                    //send cancel message to all the others
+                    ACLMessage endAuction = new ACLMessage(ACLMessage.CANCEL);
+                    for (int i = 0; i < curators.size(); ++i) {
+                        if(!curators.get(i).getLocalName().equals(reply.getSender().getLocalName())){
+                            endAuction.addReceiver(curators.get(i));
+                        }
+                    }
+                    endAuction.setContent(""+value);
+                    endAuction.setConversationId("auction");
+                    endAuction.setReplyWith("cfp"+System.currentTimeMillis());
+                    this.myAgent.send(endAuction);
+                    //send confirmation message to the buyer
+                    ACLMessage confirmAuction = new ACLMessage(ACLMessage.CONFIRM);
+                    confirmAuction.addReceiver(reply.getSender());
+                    confirmAuction.setContent(""+value);
+                    confirmAuction.setConversationId("auction");
+                    confirmAuction.setReplyWith("cfp"+System.currentTimeMillis());
+                    this.myAgent.send(confirmAuction);
                     step = 2;
                 } else {
                     System.out.println("[AUCTION] No curator auctioned for "+value);

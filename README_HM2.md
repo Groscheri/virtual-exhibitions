@@ -50,4 +50,14 @@ and answers the ProfilerAgent.
 Finally, the ProfilerAgent send an info request to the Curator agent to get 
 information about items it received (from TourGuide agent) in the virtual tour.
 
+####Task 2
+
+Create a curator with the arguments (1,5) and and artist manager with arguments (1000,100,500).
+Create the following curators and after each creation an auction will be launched:
+Curator cuuu: 2,60
+Curator cucu1: 3,700
+Curator cucu2: 4,1000,80
+The winners will always be the last created curator because it has the highest price to offer
+according to their strategy.
+
 
