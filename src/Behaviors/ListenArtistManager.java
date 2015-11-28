@@ -5,6 +5,7 @@
  */
 package Behaviors;
 
+import Model.AuctionStrategy;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
@@ -19,24 +20,33 @@ import jade.lang.acl.MessageTemplate;
  */
 public class ListenArtistManager extends CyclicBehaviour {
     
-    private int value;
+    private AuctionStrategy strategy;
+    private int first;
+    private int nbTimes;
     
-    public ListenArtistManager(Agent a, int val) {
+    public ListenArtistManager(Agent a, AuctionStrategy str) {
         super(a);
-        value = val;
+        strategy = str;
+        first = 0;
+        nbTimes = 0;
     }
     
     public void action(){
         ACLMessage msg = myAgent.receive(MessageTemplate.MatchConversationId("auction"));
         if(msg != null){
             int auctionValue = Integer.parseInt(msg.getContent());
-            if(auctionValue <= value){
+            if(first == 0){
+                first = auctionValue;
+            }
+            if(strategy.applyStrategy(auctionValue, first, nbTimes)){
+            //if(auctionValue <= value){
                 //Accept offer
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 reply.setContent("buy-product");
                 this.myAgent.send(reply);
             } else {
+                nbTimes ++;
                 block();
             }
         } else{
