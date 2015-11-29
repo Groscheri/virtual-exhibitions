@@ -40,7 +40,7 @@ public class CuratorAgent extends Agent {
             }
         } else {
             strategy = new AuctionStrategy(3);
-            strategy.setValToSpend(900);
+            strategy.setValToSpend(400);
         }
         
 
