@@ -35,13 +35,13 @@ about the agent.
 #### Task 1
 
 Create different agents in this order to test communication scenario:
-1. Create a CuratorAgent called "cucu" without any argument
+1. Create a CuratorAgent called "cucu" without any arguments
 CuratorAgent will start listening to TourGuide & Profiler agents (info requests)
 
-2. Create a TourGuideAgent called "toto" without any argument
+2. Create a TourGuideAgent called "toto" without any arguments
 TourGuideAgent will start listening to Profiler agent (build tour requests)
 
-3. Create a ProfilerAgent called "pro" without any argument
+3. Create a ProfilerAgent called "pro" without any arguments
 Wait at least 2 seconds, the ProfilerAgent will wake up and send a "build tour" 
 request to TourGuideAgent. Then, the TourGuide agent will make an info request 
 to CuratorAgent in order to get information about artifacts in the virtual 
@@ -52,11 +52,12 @@ information about items it received (from TourGuide agent) in the virtual tour.
 
 ####Task 2
 
-Create a curator with the arguments (1,5) and and artist manager with arguments (1000,100,500).
-Create the following curators and after each creation an auction will be launched:
-Curator cuuu: 2,60
-Curator cucu1: 3,700
-Curator cucu2: 4,1000,80
+Create a curator "cuuu" with the arguments "1,5" and and artist manager with arguments "1000,100,500"
+The winner will be "cuuu" because his competitor has the default strategy "3,400".
+Create the following curators and after each creation an new auction for the same object will be launched.
+Curator "cucu1" with the arguments "2,60"
+Curator "cucu2" with the arguments "3,700"
+Curator "cucu3" with the arguments "4,1000,80"
 The winners will always be the last created curator because it has the highest price to offer
 according to their strategy.
 
