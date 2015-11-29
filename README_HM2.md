@@ -52,7 +52,7 @@ information about items it received (from TourGuide agent) in the virtual tour.
 
 ####Task 2
 
-Create a curator "cuuu" with the arguments "1,5" and and artist manager with arguments "1000,100,500"
+Create a curator "cuuu" with the arguments "1,5" and an artist manager with arguments "1000,100,500"
 The winner will be "cuuu" because his competitor has the default strategy "3,400".
 Create the following curators and after each creation an new auction for the same object will be launched.
 Curator "cucu1" with the arguments "2,60"

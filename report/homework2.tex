@@ -100,7 +100,7 @@
   claims to buy the object. Once an offer was accepted by a bidder, the auction ends. However, 
   it also has a minimum price: if the price of the auction goes below this value, it will end without being 
   sold. The Dutch auction is susceptible at the winner's curse. In other words, the winner has high 
-  chances to pay more than the the esitmated price in order to be assured to get in its possession.
+  chances to pay more than the estimated price in order to be assured to get the product in its possession.
   
   \subsubsection{Actors involved in the auction}
   
@@ -108,13 +108,13 @@
   is the \am{} and the buyers are one or several Curators. By sending arguments at creation of an 
   \am{}, we can define the first price of the auction, the amount by which the price is decreased 
   at each step and the minimal price acceptable for the auction. These characteristics of the Artist 
-  Manager ar not known by the Curators and they discover them during the auction. On the other hand,
-  the \cu{} can be parameterzied by choosing one of the following strategies:
+  Manager are not known by the Curators and they discover them during the auction. On the other hand,
+  the \cu{} can be parameterized by choosing one of the following strategies:
   \begin{enumerate}
    \item Buy the auctioned item after \textit{x} numbers of offers
-   \item Clain the object after the value reached \textit{x}\% of the first proposed price
-   \item A certain amount is fixed which can pe spent in case the object reaches that particular value
-   \item Buy the object if the value reached \textit{x}\% of the price privously estimated by Curator
+   \item Claim the object after the value reached \textit{x}\% of the first proposed price
+   \item A certain amount is fixed which can be spent in case the object reaches that particular value
+   \item Buy the object if the value reached \textit{x}\% of the price previously estimated by Curator
   \end{enumerate}
 
   
@@ -126,10 +126,10 @@
   the message contains an offer. Using the \textit{blockingReceive} method, the \am{} waits for a response. 
   After the expiration of the 3s timeout, a new offer is calculated and sent using the same performative. 
   Meanwhile, the \cu{} listens for messages which come from an \am{}. In case the performative is 
-  \textit{ACLMessage.CFP}, he will evaulate the price according to his strategy. If he can afford to 
+  \textit{ACLMessage.CFP}, he will evaluate the price according to his strategy. If he can afford to 
   pay, an ACLMessage is sent to the \am{}. When the object is sold the one \cu{}, a message with the 
   performative \textit{ACLMessage.CONFIRMATION} is sent to him and a message with the performative 
-  \textit{ACLMessage.CANCEL} to the others. As privously stated, the auction can end as
+  \textit{ACLMessage.CANCEL} to the others. As previously stated, the auction can end as
   well without selling the object if the price goes under the minimal value specified by the \am{}.
 
   \section{Nash Equilibrium}
@@ -144,7 +144,7 @@
   \end{itemize}
   
   The \am{} is trying to sell the paintings produced by his artist. Those paintings have 
-  different types of quality (high or low) but they are sold at the same price! Consequently, it is desireable 
+  different types of quality (high or low) but they are sold at the same price! Consequently, it is desirable 
   for this agent to sell low quality paintings due to the increase in payoff.
   
   The \cu{}s act as retailers. They don't know about the quality of the paintings 
@@ -183,9 +183,9 @@
   they increase it too much, they won't be able to sell anything. This behavior 
   impacts the probability for the \am{} to sell its painting.
   
-  That's why the decisions taken by the curator agents don't have any impact in order to 
-  find Nash Equilibrium. But of course, in real life, this has a huge impact because it 
-  influences the possible result of the problem.
+%   That's why the decisions taken by the curator agents don't have any impact in order to 
+%   find Nash Equilibrium. But of course, in real life, this has a huge impact because it 
+%   influences the possible result of the problem.
   
   \subsubsection{Profiler agent}
   
