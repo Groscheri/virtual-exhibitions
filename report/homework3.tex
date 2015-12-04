@@ -35,7 +35,8 @@
   
   The aim of this homework is to implement practical scenarios using deep 
 mechanisms of the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.com/}{http://jade.tilab.com/}} 
-  platform. 
+  platform. Such mechanisms involve knowledge and understanding of containers and self 
+  generation of agent's concepts.
 
   % TODO to complete
 
@@ -49,7 +50,87 @@ mechanisms of the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.
   
   \subsection{N queens}
 
-  % TODO
+  \subsubsection{Description}
+  
+  % TODO what's the problem ?
+  \textit{N queens problem} is a well-known problem in Artificial Intelligence because it is often 
+  used to demonstrate that problems that, at first glance, seem difficult to solve are not that 
+  hard to solve if we concentrate and study the possible issues of the problem.
+  
+  \subsubsection{Protocol}
+  
+  \paragraph{Model}
+  Before building any communication protocol betweens the Queens, it was necessary to implement a 
+  small model in order to create the rules of the game and the chest where to Queens stand. That's 
+  why a class called \textit{Chest} appeared in the model. The aim of this class is to provide 
+  methods to help Queens in their decision making. First, the chest was virtually implemented as a 
+  single table (list) of integers from 0 to $n^2-1$. Of course, such a table isn't useful at all and 
+  we only created a table representing the position of the $n$ queens. This table contains $n$ entries 
+  and each $i$ of them contains the value (position) of the queen number $i$.
+  \begin{verbatim}
+	n = 4
+      ===========
+      00 01 02 03
+      04 05 06 07
+      08 09 10 11
+      12 13 14 15
+      ===========
+queens = [04, 13, 02, 11]
+  \end{verbatim}
+
+  Methods provided are the following:
+  \begin{itemize}
+   \item serialize: in order to send chest through content ACLMessage
+   \item fromSerial: build a chest from a serialize content
+   \item setQueen: set queen $i$ to a position $p$
+   \item findPlace: find place within a column
+   \item findPlaceFromPrevious: find place without taking previous positions of the queen into account
+   \item possible: is it possible to place a queen here ?
+   \item checkPosition \& check are private methods which allow checking position parameter and position 
+   compared to other queens (same row ? same column ? same diagonal ?)
+  \end{itemize}
+
+  \paragraph{Communication}  
+  Each queen represents a column in the chest and could only communicate with the previous or the following queen (column before and column after). 
+  For the first queen, she can only talk to the next one (second column), and for the last queen, she can only speak with the previous queen. Once every 
+  queens are launched (created dynamically with \textit{ContainerController} class in \textit{QueenFactoryAgent} class), they look for their previous 
+  and/or next queen(s) using registrations and subscriptions to and from \textit{Directory Facilitator} (DF). Once this is done, a backtracking process 
+  can start with the following protocol:
+  \begin{enumerate}
+   \item First queen (column number 0) starts with positioning in the first column (often first line)
+   \item First queen sends a message to next queen asking her to position herself if she can
+   \item Second queen receives the message with associated model and try to place herself on the chest
+   \begin{itemize}
+    \item If she succeeds, she sends a message to the following queen and then step 2 is repeated.
+    \item If she fails, she sends a message back to the previous queen asking her to change the position of the queen.
+   \end{itemize}
+   \item If a queen receives a message from the next queen, it means ``change your position'' i.e. no solution was found.
+   Queen receiving the message tries to place her queen in another position (not forgetting the previous position in order 
+   to avoid infinite loops). Then, conditions and actions from step 3 are repeated.
+   \item If last queen succeeds in placing herself, problem is solved
+   \item If first queen doesn't succeed in placing all of her position, problem is impossible to solve or every solution has 
+   been found.
+  \end{enumerate}
+  
+  \paragraph{Some results}
+\begin{verbatim}
+n = 04 | solution = [04, 13, 02, 11]
+n = 08 | solution = [0, 33, 58, 43, 20, 53, 14, 31]
+n = 16 | solution = [0, 33, 66, 19, 196, 133, 214,
+                     183, 232, 89, 250, 107, 60, 
+                     173, 126, 159]
+\end{verbatim}
+
+For each problem, we could have searched all the possible solutions backtracking even 
+though we had found a solution in order to find it all (stacking them).
+  
+Concerning time, this algorithm is really huge resources consuming. There are lots of 
+communication and backtracking before finding a solution with $n = 16$. This is way much 
+easier with $n = 4$ but this problem doesn't seem to be solvable in that way for big $n$ 
+values. Even $n = 100$ seems very very hard nay impossible to compute in an affordable 
+time for a computer machine.
+  
+  % TODO Lancement  -gui main:Agents.QueenFactoryAgent
 
   \subsection{Multiple containers}
 
