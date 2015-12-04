@@ -34,7 +34,13 @@ about the agent.
 
 #### Task 1: N queens
 
-TODO
+Use case:
+Create a QueenFactoryAgent called "main" with 1 argument, an integer N which 
+represents the number of queens. Default value (if parameter not provided) is 8.
+
+All queens will be created automatically and the problem will be solved as fast 
+as possible using backtracking. First solution found is displayed on the screen 
+and solver is stopped.
 
 #### Task 2: Multiple containers & cloning
 
