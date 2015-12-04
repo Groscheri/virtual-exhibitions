@@ -25,7 +25,6 @@ public class QueenAgent extends Agent {
     protected Integer n;
     
     protected int step = 0;
-    protected Chest c;
     
     @Override
     protected void setup() {
@@ -75,7 +74,7 @@ public class QueenAgent extends Agent {
             step++;
         }
         
-        // wait for previous & next to be ready and launch protocol
+        // wait for previous & next to be ready and launch solver
         this.addBehaviour(new Behaviour() {
             @Override
             public void action() {
@@ -196,6 +195,11 @@ public class QueenAgent extends Agent {
          * - 4 ==> wait for next queen ACLMessage
          * - 5 ==> end protocol
          */
+        
+        // TODO refactor and make some more useful function to communicate (if 
+        // possible)
+        
+        protected Chest c;
         protected int lastPosition = Chest.QUEEN_NOT_PLACED;
 
         @Override
@@ -206,7 +210,6 @@ public class QueenAgent extends Agent {
                     if (isFirst()) {
                         display("Starting solver");
                         
-                        // TODO make a function because it will be used in step 3
                         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
                         message.addReceiver(nextQueen); // send to next
                         message.setConversationId("place-queen");
@@ -253,7 +256,8 @@ public class QueenAgent extends Agent {
                     
                     if (place == Chest.QUEEN_NOT_PLACED) { // impossible to be the first
                         display("No place available");
-                        // if no position available send message to previous agent and listen previous agent (step 3)
+                        // if no position available send message to previous 
+                        // agent and listen previous agent (step 3)
                         ACLMessage message = new ACLMessage(ACLMessage.SUBSCRIBE);
                         message.addReceiver(previousQueen);
                         message.setConversationId("move-queen");
@@ -262,7 +266,6 @@ public class QueenAgent extends Agent {
                         //step = 3;// step doesn't change
                     }
                     else {
-                        // TODO reuse function from step2
                         display("Placing queen in " + place);
                         
                         // set queen
@@ -271,6 +274,8 @@ public class QueenAgent extends Agent {
                         
                         if (isLast()) {
                             // end
+                            // TODO store the solution and continue as if no 
+                            // solution was found
                             step = 5;
                         }
                         else {
@@ -318,7 +323,7 @@ public class QueenAgent extends Agent {
                         // if no position available send message to previous agent and listen previous agent (step 3)
                         
                         if (isFirst()) {
-                            // no solution ...
+                            // no solution any more...
                             step = 6;
                         }
                         else {
@@ -355,15 +360,18 @@ public class QueenAgent extends Agent {
 
         @Override
         public boolean done() {
-            // TODO inform other queens that we're done !
             if (step == 5) {
+                // TODO remove this step, instead store solution and keep going
+                // as if no solution was found !
                 display("End of solver !");
                 display("Solution:");
                 c.display();
                 return true;
             }
             else if (step == 6) {
-                display_error("No solution", false);
+                // TODO inform other queens that we're done !
+                // TODO gather all solutions found and display them !
+                display_error("No solution anymore", false);
                 return true;
             }
             return false;
