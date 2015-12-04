@@ -16,3 +16,9 @@ hs_err_pid*
 # report
 report/*
 !report/*.tex
+
+# release
+*.zip
+
+# dust
+*.directory

@@ -30,9 +30,29 @@ import java.util.logging.Logger;
 public class ArtistManagerAgent extends Agent {
     
     ArrayList<AID> curators;
+    private int value;
+    private int step;
+    private int minValue;
     
     @Override
     protected void setup(){
+         // get value of product, step and minimal value
+         
+        Object[] args = this.getArguments();
+        if (args != null && args.length > 2) {
+            try{
+                value = Integer.parseInt((String) args[0]);
+                step = Integer.parseInt((String) args[1]);
+                minValue = Integer.parseInt((String) args[2]);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            //default values
+            value = 1000;
+            step = 100;
+            minValue = 300;
+        }
         AMSAgentDescription [] agents = null;
         curators = new ArrayList<AID>();
         
@@ -56,7 +76,7 @@ public class ArtistManagerAgent extends Agent {
                         curators.add(dfds[i].getName());
                         System.out.println(curators.size());
                     }
-                    this.myAgent.addBehaviour(new PerformAuction(this.myAgent, curators));
+                    this.myAgent.addBehaviour(new PerformAuction(this.myAgent, curators, value, step, minValue));
                 } catch (FIPAException ex) {
                     ex.printStackTrace();
                 }

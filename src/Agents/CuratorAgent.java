@@ -1,11 +1,10 @@
 package Agents;
 
 import Behaviors.ListenArtistManager;
-import Behaviors.ListenProfiler;
-import Behaviors.ListenTourGuide;
 import Behaviors.ListenInfo;
 import Behaviors.ListenTour;
 import Behaviors.UpdateGallery;
+import Model.AuctionStrategy;
 import Model.Item;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
  */
 public class CuratorAgent extends Agent {
     protected ArrayList<Item> galleryItems;
-    private int valToSpend;
     
+    private AuctionStrategy strategy;
     
     @Override
     protected void setup() {
@@ -32,12 +31,16 @@ public class CuratorAgent extends Agent {
         Object[] args = this.getArguments();
         if (args != null && args.length > 0) {
             try{
-                valToSpend = Integer.parseInt((String) args[0]);
+                //get id value and strategies
+                strategy = selectStrategy(args);
+                //previous solution for fixed value
+                //valToSpend = Integer.parseInt((String) args[0]);
             } catch(Exception e){
                 e.printStackTrace();
             }
         } else {
-            valToSpend = 900;
+            strategy = new AuctionStrategy(3);
+            strategy.setValToSpend(400);
         }
         
 
@@ -61,7 +64,7 @@ public class CuratorAgent extends Agent {
 
         //this.addBehaviour(parallel);
         //TODO - get max value in param
-        this.addBehaviour(new ListenArtistManager(this, valToSpend));
+        this.addBehaviour(new ListenArtistManager(this, strategy));
         System.out.println("Listening to Artist Manager");
         this.addBehaviour(new ListenInfo(this));
         System.out.println("[CU] Listening to TourGuide & Profiler");
@@ -93,6 +96,31 @@ public class CuratorAgent extends Agent {
             }
         }
         return null;
+    }
+    
+    private AuctionStrategy selectStrategy(Object[] args){
+        AuctionStrategy str = new AuctionStrategy(Integer.parseInt((String) args[0]));
+        switch(str.getIdStrategy()){
+            //wait for number of offers (nbOffers) than buy
+            case 1:
+                str.setNbOffers(Integer.parseInt((String) args[1]));
+                break;
+            //certain percent of first price
+            case 2:
+                str.setPercentage(Integer.parseInt((String) args[1]));
+                break;
+            //
+            case 3:
+                str.setValToSpend(Integer.parseInt((String) args[1]));
+                break;
+            case 4:
+                int valToSpend = Integer.parseInt((String) args[1]);
+                int percentage = Integer.parseInt((String) args[2]);
+                valToSpend = valToSpend * percentage / 100;
+                str.setValToSpend(valToSpend);
+                break;
+        }
+        return str;
     }
     
     protected void takeDown(){
