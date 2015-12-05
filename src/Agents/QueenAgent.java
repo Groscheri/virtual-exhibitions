@@ -243,7 +243,7 @@ public class QueenAgent extends Agent {
                             MessageTemplate.MatchConversationId("place-queen"), 
                             MessageTemplate.MatchPerformative(ACLMessage.INFORM)
                     ));
-                    display("Received \"place-queen\"");
+                    //display("Received \"place-queen\"");
                     
                     // retrieve serial
                     String serial = inform.getContent();
@@ -255,7 +255,7 @@ public class QueenAgent extends Agent {
                     int place = c.findPlace(id);
                     
                     if (place == Chest.QUEEN_NOT_PLACED) { // impossible to be the first
-                        display("No place available");
+                        display("No place available, backtrack");
                         // if no position available send message to previous 
                         // agent and listen previous agent (step 3)
                         ACLMessage message = new ACLMessage(ACLMessage.SUBSCRIBE);
@@ -301,7 +301,7 @@ public class QueenAgent extends Agent {
                             MessageTemplate.MatchConversationId("move-queen"), 
                             MessageTemplate.MatchPerformative(ACLMessage.SUBSCRIBE)
                     ));
-                    display("Received \"move-queen\"");
+                    //display("Received \"move-queen\"");
                     
                     // retrieve serial
                     String serial = subscribe.getContent();
@@ -319,7 +319,7 @@ public class QueenAgent extends Agent {
                     // - if no position available send message to previous agent and listen previous agent (step 3) => think of removing queen
                     
                     if (place == Chest.QUEEN_NOT_PLACED) {
-                        display("No place available");
+                        display("No place available, backtrack");
                         // if no position available send message to previous agent and listen previous agent (step 3)
                         
                         if (isFirst()) {

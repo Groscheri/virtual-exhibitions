@@ -1,8 +1,6 @@
 
 package Model;
 
-import java.util.Arrays;
-
 /**
  * Chest class
  */
@@ -24,8 +22,43 @@ public class Chest {
     protected int n;
     
     public void display() {
-        // TODO beautify display
-        System.out.println(Arrays.toString(queens));
+        /*
+        * 00 01 XX 03
+        * XX 05 06 07
+        * 08 09 10 XX
+        * 12 XX 14 15
+        */
+        int maxPerColumn = this.n - 1;
+        int max = this.n * this.n;
+        int numberOfNumberToDisplay = String.valueOf(max - 1).length();
+        int queensDisplayed = 0;
+        boolean moreQueensToDisplay = true;
+        for (int i = 0; i < max; ++i) {
+            if (moreQueensToDisplay && this.isQueen(i)) {
+                for (int j = 0; j < numberOfNumberToDisplay; ++j) {
+                    System.out.print("X"); // display queen
+                }
+                queensDisplayed++;
+                if (queensDisplayed == this.n) {
+                    moreQueensToDisplay = false; // small opt. to avoid checking queen position
+                }
+            }
+            else {
+                int numberInI = String.valueOf(i).length();
+                for (int j = numberInI; j < numberOfNumberToDisplay; ++j) {
+                    System.out.print("0"); // display 0s ==> filling with 0
+                }
+                System.out.print(i); // display i
+            }
+            
+            // new line or space ?
+            if (i%n == maxPerColumn) {
+                System.out.print("\n");
+            }
+            else {
+                System.out.print(" ");
+            }
+        }
     }
     
     public String serialize() {
@@ -185,5 +218,14 @@ public class Chest {
     
     private boolean checkPosition(int position) {
         return !(position < 0 || position > (this.n*this.n - 1));
+    }
+    
+    private boolean isQueen(int position) {
+        for (int i = 0; i < this.n; ++i) {
+            if (this.queens[i] == position) {
+                return true;
+            }
+        }
+        return false;
     }
 }
