@@ -105,7 +105,7 @@ public class ControllerAgent extends Agent {
                         }
                         
                         ContainerController agentFactory = getContainerController();
-                        Object[][] args = {{"1", "5"}, {"2", "60"}, {"3", "700" }, {"4", "1000", "80"}};
+                        Object[][] args = {{"1", "5"}, {"2", "60"}, {"3", "900" }, {"4", "1000", "80"}};
                         String name = "cucu";
                         for(int i=0; i<args.length; i++){
                             String container = "Container-";

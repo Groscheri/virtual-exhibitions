@@ -39,19 +39,11 @@ import java.util.ArrayList;
 public class MobCommandsArtist extends CyclicBehaviour {
     
     private Location destination;
-    ArrayList<AID> curators;
     
-    private int value;
-    private int step;
-    private int minValue;
     
-    public MobCommandsArtist(Agent a, Location dest, ArrayList<AID> curators, int val, int step, int minVal){
+    public MobCommandsArtist(Agent a, Location dest){
         super(a);
         destination = dest;
-        this.curators = curators;
-        value = val;
-        this.step = step;
-        minValue = minVal;
         
         //Register language and ontology
 	myAgent.getContentManager().registerLanguage(new SLCodec());
@@ -80,38 +72,6 @@ public class MobCommandsArtist extends CyclicBehaviour {
                     myAgent.doClone(destination, newName);
                     
                     //this.myAgent = new CuratorAgent(new AID(newName, AID.ISLOCALNAME));
-                    
-                    //Get curators on the container
-                    DFAgentDescription template = new DFAgentDescription();
-                    ServiceDescription sd = new ServiceDescription();
-                    sd.setName("Obj-complementary-info");
-                    sd.setOwnership(destination.getName());
-                    template.addServices(sd);
-                    SearchConstraints sc = new SearchConstraints();
-                    sc.setMaxResults(new Long(1));
-                    
-                    this.myAgent.addBehaviour(new SubscriptionInitiator(this.myAgent, 
-                    DFService.createSubscriptionMessage(this.myAgent, this.myAgent.getDefaultDF(), template, sc)){
-                        @Override
-                        protected void handleInform(ACLMessage inform) {
-                            try {
-                                DFAgentDescription[] dfds =
-                                        DFService.decodeNotification(inform.getContent());
-                                for(int i=0; i < dfds.length; i++){
-                                    System.out.println("[AM-"+destination.getName()+"] Notification for artist manager after subscription: "+dfds[i].getName().getLocalName());
-                                    curators.add(dfds[i].getName());
-                                }
-
-                                //start auction
-                                this.myAgent.addBehaviour(new PerformAuction(this.myAgent, curators, value, step, minValue));
-                            } catch (FIPAException ex) {
-                                ex.printStackTrace();
-                            }
-
-                        }
-                    });
-
-                    
                     
                 }
             } catch (Exception ex) {

@@ -59,7 +59,7 @@ public class CuratorAgent extends Agent {
         System.out.println("[CU] Listening to Controller");       
         //TODO - get max value in param
         this.addBehaviour(new ListenArtistManager(this, strategy));
-        System.out.println("Listening to Artist Manager");
+        System.out.println("[CU] Listening to Artist Manager");
         this.addBehaviour(new ListenInfo(this));
         System.out.println("[CU] Listening to TourGuide & Profiler");
     }
@@ -120,7 +120,6 @@ public class CuratorAgent extends Agent {
     protected void takeDown(){
         // unregister service from this agent
         try {
-            //System.out.println("[CU] Service deregistered");
             DFService.deregister(this);
         }
         catch(FIPAException fe){

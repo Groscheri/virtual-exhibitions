@@ -13,6 +13,9 @@ import jade.domain.FIPAAgentManagement.NotUnderstoodException;
 import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.wrapper.ControllerException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +58,11 @@ public class ListenArtistManager extends CyclicBehaviour {
                 nbTimes = 0;
             } else if(msg.getPerformative() == ACLMessage.CONFIRM){
                 nbTimes = 0;
-                System.out.println("[AUCTION] Confirmation for auction received by "+this.myAgent.getLocalName());
+                try {
+                    System.out.println("[AUCTION-"+this.myAgent.getContainerController().getContainerName()+"] Confirmation for auction received by "+this.myAgent.getLocalName());
+                } catch (ControllerException ex) {
+                    Logger.getLogger(ListenArtistManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else{
             block();

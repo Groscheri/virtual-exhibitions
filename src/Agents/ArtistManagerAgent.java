@@ -13,7 +13,10 @@ import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.Location;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
+import jade.core.behaviours.WakerBehaviour;
 import jade.domain.AMSService;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.AMSAgentDescription;
@@ -25,7 +28,9 @@ import jade.domain.mobility.CloneAction;
 import jade.domain.mobility.MobileAgentDescription;
 import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import jade.proto.SubscriptionInitiator;
+import jade.wrapper.ControllerException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +45,9 @@ public class ArtistManagerAgent extends Agent {
     private int value;
     private int step;
     private int minValue;
+    
+    private int bestBid;
+    private String bidder;
     
     private Location dest;
     
@@ -79,15 +87,81 @@ public class ArtistManagerAgent extends Agent {
             fe.printStackTrace();
         }
         
-        //Find all curators
-        AMSAgentDescription [] agents = null;
         curators = new ArrayList<AID>();
+        //SequentialBehaviour seq = new SequentialBehaviour();
+        this.addBehaviour(new MobCommandsArtist(this, dest));
+        this.addBehaviour(new CyclicBehaviour(this){   
+            
+            private ArrayList<Integer> offers;
+            
+            @Override
+            public void action() {
+                ACLMessage msg = myAgent.receive(MessageTemplate.and(MessageTemplate.MatchConversationId("auction"), MessageTemplate.MatchPerformative(ACLMessage.CONFIRM)));
+                if(msg != null){
+                    try {
+                        int localBestBid = Integer.parseInt(msg.getContent());
+                        if(localBestBid > bestBid){
+                            bestBid = localBestBid;
+                            bidder = msg.getSender().getLocalName();
+                        }
+                        System.out.println("[AUCTION] Best offer of "+bestBid);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                } else
+                {
+                    block();
+                }
+            }
+        });
         
-        this.addBehaviour(new MobCommandsArtist(this, dest, curators, value, step, minValue));    
+        //this.addBehaviour(seq);
     }
+    
+    protected void afterClone() {
+        //Get curators on the container
+        DFAgentDescription template = new DFAgentDescription();
+        ServiceDescription sd = new ServiceDescription();
+        sd.setName("Obj-complementary-info");
+        try {
+            sd.setOwnership(this.getContainerController().getContainerName());
+        } catch (ControllerException ex) {
+            ex.printStackTrace();
+        }
+        template.addServices(sd);
+        SearchConstraints sc = new SearchConstraints();
+        sc.setMaxResults(new Long(1));
+
+        this.addBehaviour(new SubscriptionInitiator(this, 
+        DFService.createSubscriptionMessage(this, this.getDefaultDF(), template, sc)){
+            @Override
+            protected void handleInform(ACLMessage inform) {
+                try {
+                    DFAgentDescription[] dfds =
+                            DFService.decodeNotification(inform.getContent());
+                    for(int i=0; i < dfds.length; i++){
+                        System.out.println("[AM-"+this.myAgent.getContainerController().getContainerName()+"] Notification for artist manager after subscription: "+dfds[i].getName().getLocalName());
+                        curators.add(dfds[i].getName());
+                    }
+
+                    //start auction
+                    this.myAgent.addBehaviour(new PerformAuction(this.myAgent, curators, value, step, minValue));
+                } catch (FIPAException ex) {
+                    ex.printStackTrace();
+                } catch (ControllerException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        });
+   }
+
     
     protected void takeDown(){
-        
+        try {
+            DFService.deregister(this);
+        } catch (FIPAException ex) {
+            Logger.getLogger(ArtistManagerAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
 }

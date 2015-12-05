@@ -10,7 +10,10 @@ import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.wrapper.ControllerException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,7 +50,12 @@ public class PerformAuction extends Behaviour {
                     //Check if value is not under the minimal prise
                     if(value < minValue){
                         step = 2;
-                        System.out.println("[AUCTION] Auction finished without selling!");
+                        
+                        try {
+                            System.out.println("[AUCTION-"+this.myAgent.getContainerController().getContainerName()+"] Auction finished without selling!");
+                        } catch (ControllerException ex) {
+                            ex.printStackTrace();
+                        }
                         break;
                     }
                 }
@@ -59,7 +67,13 @@ public class PerformAuction extends Behaviour {
                 cfp.setConversationId("auction");
                 cfp.setReplyWith("cfp"+System.currentTimeMillis());
                 this.myAgent.send(cfp);
-                System.out.println("[AUCTION] Offer sent for "+value);
+                {
+                    try {
+                        System.out.println("[AUCTION-"+this.myAgent.getContainerController().getContainerName()+"] Offer sent for "+value);
+                    } catch (ControllerException ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 priceSuggested = true;
                 step = 1;
                 break;
@@ -68,8 +82,12 @@ public class PerformAuction extends Behaviour {
                 MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 ACLMessage reply = this.myAgent.blockingReceive(template, TIMEOUT);
                 if(reply != null){
-                    //a curator accepted the offer
-                    System.out.println("[AUCTION] Auction finished! Product goes to " + reply.getSender().getLocalName());
+                    try {
+                        //a curator accepted the offer
+                        System.out.println("[AUCTION-"+this.myAgent.getContainerController().getContainerName()+"] Auction finished! Winner is " + reply.getSender().getLocalName());
+                    } catch (ControllerException ex) {
+                        ex.printStackTrace();
+                    }
                     //send cancel message to all the others
                     ACLMessage endAuction = new ACLMessage(ACLMessage.CANCEL);
                     for (int i = 0; i < curators.size(); ++i) {
@@ -83,14 +101,18 @@ public class PerformAuction extends Behaviour {
                     this.myAgent.send(endAuction);
                     //send confirmation message to the buyer
                     ACLMessage confirmAuction = new ACLMessage(ACLMessage.CONFIRM);
-                    confirmAuction.addReceiver(reply.getSender());
+                    confirmAuction.addReceiver(new AID ("art", AID.ISLOCALNAME));
                     confirmAuction.setContent(""+value);
                     confirmAuction.setConversationId("auction");
                     confirmAuction.setReplyWith("cfp"+System.currentTimeMillis());
                     this.myAgent.send(confirmAuction);
                     step = 2;
                 } else {
-                    System.out.println("[AUCTION] No curator auctioned for "+value);
+                    try {
+                        System.out.println("[AUCTION-"+this.myAgent.getContainerController().getContainerName()+"] No curator auctioned for "+value);
+                    } catch (ControllerException ex) {
+                        Logger.getLogger(PerformAuction.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     step = 0;
                 }
                 break;
