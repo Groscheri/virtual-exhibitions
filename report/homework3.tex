@@ -145,6 +145,7 @@ time for a computer machine.
   \item Each Curators is \textit{moved} in one of the two containers 
   \item An auction takes place in each container
   \item The main Artist Manager receives the two auction results and keeps the best one
+  \end{itemize}
 
   \subsubsection{Implementation}
 
@@ -156,7 +157,7 @@ time for a computer machine.
   launch their cloning. It will also create the four curators and will take care of their
   moving process.
 
-  \parapgraph{Cloning}
+  \paragraph{Cloning}
 
   This process gives the oportunity to have an identical agent in another container with a different
   name. Consequently, it is based on the \textit{CloneAction} and \textit{MobileDescriptionClass} classes.
@@ -165,20 +166,20 @@ time for a computer machine.
   with the performative \textit{REQUEST}. This message has a specific language (\textit{SLCodec}) and a specific
   ontology (\textit{MobilityOntology}).
 
-  \parapgraph{Moving}
+  \paragraph{Moving}
 
   Moving is a mobility very similar to cloning. The difference is that the agent won't be present in
   two different containers, it will simple move from one to a new destination. All other aspects mentioned
   in the case of cloning are valid for moving as well.
 
-  \parapgraph{Distributed Auction}
+  \paragraph{Distributed Auction}
 
   The main idea is to apply the auction but only to a subset of all Curators. Consequently, this implies
   applying a filter on the research of all Curators before launching the auction. The \textit{destination}
   of the moved Curators may serve as filter while searching the services of Curators in the DF Agent. It is
   mandatory that the mobility precedes the DF research so that the two behaviours would be sequential.
 
-  \parapgraph{Main Artist Manager}
+  \paragraph{Main Artist Manager}
   This specific Artist Manager which is in the main container shouldn't launch an auction. It should listen
   to the other two Artist Managers for the winner of their actions in their containers and he will eventually
   choose the best offer. The communication will be done using \textit{ACLMessages} with a \textit{block()}
