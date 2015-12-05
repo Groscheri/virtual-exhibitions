@@ -134,10 +134,61 @@ time for a computer machine.
 
   \subsection{Multiple containers}
 
-  % TODO
+  \subsubsection{Description}
+
+  The idea of this task is to create a distributed Dutch auction between the Artist Manager
+  and the Curators in 2 different containers.
+  We have chosen the following scenario:
+  \begin{itemize}
+  \item The Artist Manager is \textit{cloned} in two different containers
+  \item Four Curators are created with different strategies associated
+  \item Each Curators is \textit{moved} in one of the two containers 
+  \item An auction takes place in each container
+  \item The main Artist Manager receives the two auction results and keeps the best one
+
+  \subsubsection{Implementation}
+
+  \paragraph{Controller Agent}
+
+  An introduction of a new Agent was necessary in order to handle the creation of containers
+  as well as the identification of all possible locations on the platform. Moreover, using the
+  subscription in the DF Agent, it manages to get all Artist Manager Agents in order to
+  launch their cloning. It will also create the four curators and will take care of their
+  moving process.
+
+  \parapgraph{Cloning}
+
+  This process gives the oportunity to have an identical agent in another container with a different
+  name. Consequently, it is based on the \textit{CloneAction} and \textit{MobileDescriptionClass} classes.
+  The main parameters are the new destination and the new name of the agent.
+  In order to execute the cloning, an \textit{ACLMessage} is sent to the corresponding instance of the agent
+  with the performative \textit{REQUEST}. This message has a specific language (\textit{SLCodec}) and a specific
+  ontology (\textit{MobilityOntology}).
+
+  \parapgraph{Moving}
+
+  Moving is a mobility very similar to cloning. The difference is that the agent won't be present in
+  two different containers, it will simple move from one to a new destination. All other aspects mentioned
+  in the case of cloning are valid for moving as well.
+
+  \parapgraph{Distributed Auction}
+
+  The main idea is to apply the auction but only to a subset of all Curators. Consequently, this implies
+  applying a filter on the research of all Curators before launching the auction. The \textit{destination}
+  of the moved Curators may serve as filter while searching the services of Curators in the DF Agent. It is
+  mandatory that the mobility precedes the DF research so that the two behaviours would be sequential.
+
+  \parapgraph{Main Artist Manager}
+  This specific Artist Manager which is in the main container shouldn't launch an auction. It should listen
+  to the other two Artist Managers for the winner of their actions in their containers and he will eventually
+  choose the best offer. The communication will be done using \textit{ACLMessages} with a \textit{block()}
+  function at the level of the main Artist Manager in order to capture the two results. This part
+  of the implementation still needs to be tested as it is not fully functional.
 
   \section{Conclusion}
   
-  % TODO
+  This homework was an opportunity to implement the N Queen problems using agents based on the JADE framework
+  but also to implement the mobility of Curators and Artist Manager Agents in order to create a distributed
+  Dutch auction.
 
 \end{document}

@@ -6,9 +6,13 @@
 package Agents;
 
 
+import Behaviors.MobCommandsArtist;
 import Behaviors.PerformAuction;
+import jade.content.lang.sl.SLCodec;
+import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.Location;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.AMSService;
 import jade.domain.DFService;
@@ -17,6 +21,9 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.domain.mobility.CloneAction;
+import jade.domain.mobility.MobileAgentDescription;
+import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.proto.SubscriptionInitiator;
 import java.util.ArrayList;
@@ -33,6 +40,8 @@ public class ArtistManagerAgent extends Agent {
     private int value;
     private int step;
     private int minValue;
+    
+    private Location dest;
     
     @Override
     protected void setup(){
@@ -53,54 +62,32 @@ public class ArtistManagerAgent extends Agent {
             step = 100;
             minValue = 300;
         }
+        
+        dest = here();
+        
+        //register auction service
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(this.getAID());
+        ServiceDescription sd_register = new ServiceDescription();
+        sd_register.setType("auction");
+        sd_register.setName("Auction-auctioneer");
+        dfd.addServices(sd_register);
+        try{
+            System.out.println("[AM] Service Auction-auctioneer registered");
+            DFService.register(this, dfd);
+        } catch (FIPAException fe){
+            fe.printStackTrace();
+        }
+        
+        //Find all curators
         AMSAgentDescription [] agents = null;
         curators = new ArrayList<AID>();
         
-        DFAgentDescription template = new DFAgentDescription();
-            ServiceDescription sd = new ServiceDescription();
-            sd.setName("Obj-complementary-info");
-            template.addServices(sd);
-            SearchConstraints sc = new SearchConstraints();
-            sc.setMaxResults(new Long(1));
-        
-        //SequentialBehaviour seq = new SequentialBehaviour();
-        this.addBehaviour(new SubscriptionInitiator(this, 
-                DFService.createSubscriptionMessage(this, getDefaultDF(), template, sc)){
-            @Override
-            protected void handleInform(ACLMessage inform) {
-                try {
-                    DFAgentDescription[] dfds =
-                            DFService.decodeNotification(inform.getContent());
-                    for(int i=0; i < dfds.length; i++){
-                        System.out.println("Notification for artist manager after subscription: "+dfds[i].getName());
-                        curators.add(dfds[i].getName());
-                        System.out.println(curators.size());
-                    }
-                    this.myAgent.addBehaviour(new PerformAuction(this.myAgent, curators, value, step, minValue));
-                } catch (FIPAException ex) {
-                    ex.printStackTrace();
-                }
-
-            }
-        });
-            
-        //Start Dutch auction
-        //System.out.println("This is "+curators.size()); //has 0 elems
-        //seq.addSubBehaviour(new InformFromArtistManager(this, curators));
-        //this.addBehaviour(seq);
-        //Send offer
-        /*
-        ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-        for (int i = 0; i < curators.size(); ++i){
-            cfp.addReceiver(curators.get(i));
-            System.out.println("OK");
-        }
-        cfp.setContent("An offer is sent");
-        this.send(cfp);
-        System.out.println("Offer sent");*/
+        this.addBehaviour(new MobCommandsArtist(this, dest, curators, value, step, minValue));    
     }
     
     protected void takeDown(){
         
     }
+    
 }

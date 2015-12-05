@@ -3,16 +3,22 @@ package Agents;
 import Behaviors.ListenArtistManager;
 import Behaviors.ListenInfo;
 import Behaviors.ListenTour;
+import Behaviors.MobCommandsCurator;
 import Behaviors.UpdateGallery;
 import Model.AuctionStrategy;
 import Model.Item;
+import jade.core.AID;
 import jade.core.Agent;
+import jade.core.Location;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.wrapper.ControllerException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CuratorAgent class
@@ -25,6 +31,8 @@ public class CuratorAgent extends Agent {
     
     private AuctionStrategy strategy;
     
+    Location dest;
+    
     @Override
     protected void setup() {
         // get value to spend in auction
@@ -33,8 +41,6 @@ public class CuratorAgent extends Agent {
             try{
                 //get id value and strategies
                 strategy = selectStrategy(args);
-                //previous solution for fixed value
-                //valToSpend = Integer.parseInt((String) args[0]);
             } catch(Exception e){
                 e.printStackTrace();
             }
@@ -47,22 +53,10 @@ public class CuratorAgent extends Agent {
         // create an update behavior to take gallery up to date
         //this.addBehaviour(new UpdateGallery(this, 5000));
         
-        // create & register service for complementary information
-        DFAgentDescription dfd = new DFAgentDescription();
-        dfd.setName(this.getAID());
-        ServiceDescription sd = new ServiceDescription();
-        sd.setType("object-info");
-        sd.setName("Obj-complementary-info");
-        dfd.addServices(sd);
-        try{
-            //System.out.println("[CU] Service registered");
-            DFService.register(this, dfd);
-        } catch (FIPAException fe){
-            fe.printStackTrace();
-        }
+        dest = here();
         
-
-        //this.addBehaviour(parallel);
+        this.addBehaviour(new MobCommandsCurator(this, dest));
+        System.out.println("[CU] Listening to Controller");       
         //TODO - get max value in param
         this.addBehaviour(new ListenArtistManager(this, strategy));
         System.out.println("Listening to Artist Manager");

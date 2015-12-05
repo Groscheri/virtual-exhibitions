@@ -5,11 +5,13 @@
  */
 package Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Laurentiu
  */
-public class AuctionStrategy {
+public class AuctionStrategy implements Serializable {
         private int valToSpend;
         private int idStrategy;
         private int nbOffers;
