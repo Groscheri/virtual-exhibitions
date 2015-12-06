@@ -54,7 +54,7 @@ mechanisms of the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.
   
   \textit{N queens problem} is well-known in Artificial Intelligence because it is often 
   used to demonstrate that problems with many possible combinations which seem difficult to solve 
-  might be simplified. If we study the symetries and constraints of the problem, it is 
+  might be simplified. If we study the symmetries and constraints of the problem, it is 
   possible to reduce the space of solutions to a finite number.
   
   \subsubsection{Protocol}
@@ -101,7 +101,7 @@ queens = [04, 13, 02, 11]
    \item First queen sends a message to next queen asking her to position herself if she can
    \item Second queen receives the message with the associated model and tries to place herself on the chess table
    \begin{itemize}
-    \item If she succeeds, she sends a message to the following queen and then step 2 is realised by this specific queen.
+    \item If she succeeds, she sends a message to the following queen and then step 2 is realized by this specific queen.
     \item If she fails, she sends a message back to the previous queen asking her to change her position.
    \end{itemize}
    \item If a queen receives a message from the next queen, it should be interpreted as ``change your position'' i.e. no solution was found.
