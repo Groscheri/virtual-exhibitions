@@ -203,9 +203,9 @@ time for a computer machine.
   \paragraph{Main Artist Manager}
   This specific Artist Manager which is in the main container shouldn't launch an auction. It should listen
   to the other two Artist Managers for the winner of their actions in their containers and he will eventually
-  choose the best offer. The communication will be done using \textit{ACLMessages} with a \textit{block()}
-  function at the level of the main Artist Manager in order to capture the two results. This part
-  of the implementation still needs to be tested as it is not fully functional.
+  choose the best offer. The communication will be done using \textit{ACLMessages} with a \textit{block()}. The
+  cloned artist managers send a \textit{CONFIRM} message to their 'father' who will update the best result
+  after each message received. This part of the implementation still needs to be tested as it is not fully functional.
 
   \section{Conclusion}
   
