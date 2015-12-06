@@ -52,19 +52,19 @@ mechanisms of the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.
 
   \subsubsection{Description}
   
-  \textit{N queens problem} is a well-known problem in Artificial Intelligence because it is often 
+  \textit{N queens problem} is well-known in Artificial Intelligence because it is often 
   used to demonstrate that problems with many possible combinations which seem difficult to solve 
-  are not that hard to solve. If we concentrate and study the possible issues of the problem, it is 
-  possible to reduce the number of possible solution to a finite number.
+  might be simplified. If we study the symetries and constraints of the problem, it is 
+  possible to reduce the space of solutions to a finite number.
   
   \subsubsection{Protocol}
   
   \paragraph{Model}
-  Before building any communication protocol betweens the Queens, it was necessary to implement a 
-  small model in order to create the rules of the game and the chest where to Queens stand. That's 
-  why a class called \textit{Chest} appeared in the model. The aim of this class is to provide 
-  methods to help Queens in their decision making. First, the chest was virtually implemented as a 
-  single table (list) of integers from 0 to $n^2-1$. Of course, such a table isn't useful at all and 
+  Before building a communication protocol between Queens, it was necessary to implement a 
+  small model in order to create the rules of the game and the chess table where the Queens stand. That's 
+  why a class called \textit{Chess} was created. The aim of this class is to provide 
+  methods to help Queens in their decision making. Firstly, the chess might virtually implemented as a 
+  single table (list) of integers from 0 to $n^2-1$. Such a table wouldn't be of great use and consequently
   we only created a table representing the position of the $n$ queens. This table contains $n$ entries 
   and each $i$ of them contains the value (position) of the queen number $i$.
   \begin{verbatim}
@@ -78,38 +78,38 @@ mechanisms of the JADE\footnote{Java Agent DEvelopment: \href{http://jade.tilab.
 queens = [04, 13, 02, 11]
   \end{verbatim}
 
-  Methods provided are the following:
+  The methods provided by the class are the following:
   \begin{itemize}
-   \item serialize: in order to send chest through content ACLMessage
-   \item fromSerial: build a chest from a serialize content
-   \item setQueen: set queen $i$ to a position $p$
+   \item serialize: in order to send chess table through content ACLMessage
+   \item fromSerial: build a chess table from a serialize content
+   \item setQueen: set queen $i$ to position $p$
    \item findPlace: find place within a column
-   \item findPlaceFromPrevious: find place without taking previous positions of the queen into account
+   \item findPlaceFromPrevious: find a place without taking previous positions of the queen into account
    \item possible: is it possible to place a queen here ?
    \item checkPosition \& check are private methods which allow checking position parameter and position 
    compared to other queens (same row ? same column ? same diagonal ?)
   \end{itemize}
 
   \paragraph{Communication}  
-  Each queen represents a column in the chest and could only communicate with the previous or the following queen (column before and column after). 
-  For the first queen, she can only talk to the next one (second column), and for the last queen, she can only speak with the previous queen. Once every 
-  queens are launched (created dynamically with \textit{ContainerController} class in \textit{QueenFactoryAgent} class), they look for their previous 
-  and/or next queen(s) using registrations and subscriptions to and from \textit{Directory Facilitator} (DF). Once this is done, a backtracking process 
+  Each queen can be associated to a column on the chess table and can only communicate with the previous or the following queen (i.e. $i-1$ and $i+1$ columns). 
+  The first and the last queens are exceptions. The former communicates only to $i+1$ column and the latter only to $i-1$. Once the 
+  queen are launched (created dynamically with \textit{ContainerController} class in \textit{QueenFactoryAgent} class), they try to get contact with their previous 
+  and/or next queen(s) using registrations and subscriptions to and from \textit{Directory Facilitator} (DF). Once this is achieved, a backtracking process 
   can start with the following protocol:
   \begin{enumerate}
    \item First queen (column number 0) starts with positioning in the first column (often first line)
    \item First queen sends a message to next queen asking her to position herself if she can
-   \item Second queen receives the message with associated model and try to place herself on the chest
+   \item Second queen receives the message with the associated model and tries to place herself on the chess table
    \begin{itemize}
-    \item If she succeeds, she sends a message to the following queen and then step 2 is repeated.
-    \item If she fails, she sends a message back to the previous queen asking her to change the position of the queen.
+    \item If she succeeds, she sends a message to the following queen and then step 2 is realised by this specific queen.
+    \item If she fails, she sends a message back to the previous queen asking her to change her position.
    \end{itemize}
-   \item If a queen receives a message from the next queen, it means ``change your position'' i.e. no solution was found.
-   Queen receiving the message tries to place her queen in another position (not forgetting the previous position in order 
-   to avoid infinite loops). Then, conditions and actions from step 3 are repeated.
+   \item If a queen receives a message from the next queen, it should be interpreted as ``change your position'' i.e. no solution was found.
+   Queen receiving the message tries to place herself in another position (not forgetting the previous position in order 
+   to avoid an infinite loop). Then, conditions and actions from step 3 are repeated.
    \item If last queen succeeds in placing herself, problem is solved
-   \item If first queen doesn't succeed in placing all of her position, problem is impossible to solve or every solution has 
-   been found.
+   \item If first queen doesn't succeed in finding a suitable position, problem is impossible to solve or all solution have already
+   been stacked.
   \end{enumerate}
   
   \paragraph{Some results}
@@ -142,14 +142,13 @@ XXX 001 002 003 004 005 006 007 008 009 010 011 012 013 014 015 016 017 018 019
 380 381 382 383 384 385 386 387 388 XXX 390 391 392 393 394 395 396 397 398 399
 \end{verbatim}
 
-For each problem, we could have searched all the possible solutions backtracking even 
-though we had found a solution in order to find it all (stacking them).
+For every given input, we could have searched all the possible solutions through backtracking and they could
+have been stacked.
   
-Concerning time, this algorithm is really huge resources consuming. There are lots of 
-communication and backtracking before finding a solution with $n = 16$. This is way much 
-easier with $n = 4$ but this problem doesn't seem to be solvable in that way for big $n$ 
-values. Even $n = 100$ seems very very hard nay impossible to compute in an affordable 
-time for a computer machine.
+Concerning time execution, this algorithm is really huge resources consuming. There is a lot of 
+communication and backtracking before finding a solution with $n = 16$. For $n = 4$, the problem would have been obviously easier. However, this algorithm is not efficient in case of big $n$ 
+values. Even $n = 100$ seems extremely hard nearly impossible to compute in an affordable 
+time.
   
   % TODO Lancement  -gui main:Agents.QueenFactoryAgent
 
