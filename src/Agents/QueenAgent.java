@@ -1,7 +1,7 @@
 
 package Agents;
 
-import Model.Chest;
+import Model.Chess;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -199,8 +199,8 @@ public class QueenAgent extends Agent {
         // TODO refactor and make some more useful function to communicate (if 
         // possible)
         
-        protected Chest c;
-        protected int lastPosition = Chest.QUEEN_NOT_PLACED;
+        protected Chess c;
+        protected int lastPosition = Chess.QUEEN_NOT_PLACED;
 
         @Override
         public void action() {
@@ -214,15 +214,15 @@ public class QueenAgent extends Agent {
                         message.addReceiver(nextQueen); // send to next
                         message.setConversationId("place-queen");
                         
-                        // create a chest
-                        c = new Chest(n);
+                        // create a chess
+                        c = new Chess(n);
                         // find a place
                         int place = c.findPlace(id);
                         // set queen
                         c.setQueen(id, place);
                         lastPosition = place; // save last place
                         
-                        // add chest to content
+                        // add chess to content
                         message.setContent(c.serialize());
 
                         this.myAgent.send(message);
@@ -248,13 +248,13 @@ public class QueenAgent extends Agent {
                     // retrieve serial
                     String serial = inform.getContent();
                     
-                    // build chest
-                    c = Chest.fromSerial(serial, n);
+                    // build chess
+                    c = Chess.fromSerial(serial, n);
                     
                     // find place
                     int place = c.findPlace(id);
                     
-                    if (place == Chest.QUEEN_NOT_PLACED) { // impossible to be the first
+                    if (place == Chess.QUEEN_NOT_PLACED) { // impossible to be the first
                         display("No place available, backtrack");
                         // if no position available send message to previous 
                         // agent and listen previous agent (step 3)
@@ -284,7 +284,7 @@ public class QueenAgent extends Agent {
                             message.addReceiver(nextQueen);
                             message.setConversationId("place-queen");
 
-                            // add chest to content
+                            // add chess to content
                             message.setContent(c.serialize());
                             this.myAgent.send(message);
                             step = 4; // wait for next queen to ask for a move
@@ -306,8 +306,8 @@ public class QueenAgent extends Agent {
                     // retrieve serial
                     String serial = subscribe.getContent();
                     
-                    // build chest
-                    c = Chest.fromSerial(serial, n);
+                    // build chess
+                    c = Chess.fromSerial(serial, n);
                     
                     // find place without taking precious queen into account (but without taking her again)
                     // TODO: list of tested queens
@@ -318,7 +318,7 @@ public class QueenAgent extends Agent {
                     // - try other position and send to next queen, then listen to next queen (step 4)
                     // - if no position available send message to previous agent and listen previous agent (step 3) => think of removing queen
                     
-                    if (place == Chest.QUEEN_NOT_PLACED) {
+                    if (place == Chess.QUEEN_NOT_PLACED) {
                         display("No place available, backtrack");
                         // if no position available send message to previous agent and listen previous agent (step 3)
                         
@@ -348,7 +348,7 @@ public class QueenAgent extends Agent {
                         message.addReceiver(nextQueen);
                         message.setConversationId("place-queen");
                         
-                        // add chest to content
+                        // add chess to content
                         message.setContent(c.serialize());
                         this.myAgent.send(message);
                         //step = 4; // step doesn't change

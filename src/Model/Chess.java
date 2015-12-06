@@ -2,9 +2,9 @@
 package Model;
 
 /**
- * Chest class
+ * Chess class
  */
-public class Chest {
+public class Chess {
     
     /**
      *    n = 4
@@ -73,12 +73,12 @@ public class Chest {
         return serial;
     }
     
-    public Chest(int n) {
+    public Chess(int n) {
         this.n = n;
         
         if (this.n <= 2) {
             this.n = N_DEFAULT;
-            System.err.println("[CHEST] n must be greater than 2. Default value sets to " + N_DEFAULT + ".");
+            System.err.println("[CHESS] n must be greater than 2. Default value sets to " + N_DEFAULT + ".");
         }
         
         this.queens = new int[this.n];
@@ -87,7 +87,7 @@ public class Chest {
         }
     }
     
-    public static Chest fromSerial(String serial, int n) {
+    public static Chess fromSerial(String serial, int n) {
         String[] queens_str = serial.split(", ");
         int size = queens_str.length;
         int[] queens = new int[size];
@@ -96,18 +96,18 @@ public class Chest {
             try {
                 queens[i] = Integer.parseInt(queens_str[i]);
             } catch (Exception e) {
-                System.err.println("[CHEST] Impossible to retrieve a serial value!");
+                System.err.println("[CHESS] Impossible to retrieve a serial value!");
                 queens[i] = QUEEN_NOT_PLACED;
             }
         }
-        return new Chest(queens, n);
+        return new Chess(queens, n);
     }
     
-    public Chest(int[] queens, int n) {
+    public Chess(int[] queens, int n) {
         this.n = n;
         if (this.n <= 2) {
             this.n = N_DEFAULT;
-            System.err.println("[CHEST] n must be greater than 2. Default value sets to " + N_DEFAULT + ".");
+            System.err.println("[CHESS] n must be greater than 2. Default value sets to " + N_DEFAULT + ".");
         }
         
         this.queens = new int[n];

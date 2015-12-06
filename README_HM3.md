@@ -45,8 +45,8 @@ and solver is stopped.
 #### Task 2: Multiple containers & cloning
 
 Use case:
-Create as paramter provided at execution an Artist Manager (art) and
+Create as parameter provided at execution an Artist Manager (art) and
 a Controller Agent (cuuu) => -agents art:Agents.ArtistManagerAgent;cuu:Agents.ControllerAgent
 
 Four curators will be created with 4 different strategies, the Artist Manager
-will be cloned and the Curator will be moved. The auctions will be executed
+will be cloned and the Curator will be moved. The auctions will be executed.
