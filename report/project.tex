@@ -17,6 +17,7 @@
 \usepackage{indentfirst} % indentation
 \usepackage{titlesec} % spacing between sections
 \usepackage{multicol} % multi columns
+\usepackage{amssymb}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
 % \usepackage{tocloft}
@@ -380,17 +381,17 @@
     \node [block] (ama) {ArtistManager Agent};
     \node [block, above of=ama, node distance=2cm] (am) {ArtistManager};
     
-    \node [block, right of=ama] (cua) {Curator Agent};
+    \node [block, right of=ama] (cua) {Curator Agent$_m$};
     \node [block, above of=cua, node distance=2cm]  (cu) {Curator};
 
     \node [block, right of=cua] (proa) {Profiler Agent};
     \node [block, above of=proa, node distance=2cm] (pro) {Profiler};
     
     \path [line] (am) -- node {1}(ama);
-    \path [line] (cu) -- node {+}(cua);
+    \path [line] (cu) -- node {2}(cua);
     \path [line] (pro) -- node {1}(proa);
 \end{tikzpicture}
-\caption{Agent model}
+\caption{Agent model. ``m'' stands for a ``mobile'' agent.}
 \label{figure:agent_model}
 \end{figure}
 
@@ -443,7 +444,7 @@
   \subsection{Mobility Model}
   % TODO
   % a. Identification of place types (example: Museo Galileo
-  % Museum).
+  % Museum).  
   % b. Identification of relationships between agent types and
   % place types
   % c. Definition of the cardinality between agent types and
@@ -453,16 +454,84 @@
   % CuratorAgent(s) move to ArtistManagerAgent place!
 
   \subsubsection{Place types}
-  % TODO
+    In the scenario, there are 4 places described in more details in Table~\ref{table:mobility_places}:
+  \begin{itemize}
+   \item 2 museums: Museo Galileo \& Museo Heritage Malta
+   \item 1 house (corresponding to the mobile application)
+   \item 1 office (corresponding to the Artist Manager's office)
+  \end{itemize}
+  
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|}
+   \thead{Place Types} & \thead{Description} & \thead{Instances} \\ \hline \hline
+   Office & Place where it is possible to work & 1 \\\hline
+   Museum & Place which contains exhibitions of paintings \& art & 2\\\hline
+   House & Place where it is possible to live & 1 \\\hline
+  \end{tabular}
+  \caption{Place types}
+  \label{table:mobility_places}
+  \end{table}
   
   \subsubsection{Relationships}
-  % TODO
+  Only Curator agents are given mobility as described in Table~\ref{table:mobility_relationships}. They are able to move to different places: House and Office.
+   \begin{table}[ht!]
+   \centering
+  \begin{tabular}{|c|c|c|c|}
+   \thead{Agent Types} & \thead{Mobile} & \thead{Place types} & \thead{Constraints} \\ \hline \hline
+   ArtistManager &  & Office & -\\\hline
+   Curator & \checkmark & Museum, Office \& House & -\\\hline
+   Profiler &  & House & - \\\hline
+  \end{tabular}
+  \caption{Relationships between agent types and place types}
+  \label{table:mobility_relationships}
+  \end{table}
   
   \subsubsection{Cardinality}
-  % TODO  
+  % TODO text
+  
+  \tikzstyle{custom_circle} = [draw, circle, minimum size=.5cm]
+  
+  \begin{figure}[ht!]
+   \begin{tikzpicture}[node distance = 8cm, auto]
+    % Cu -> Mu
+    \node [block] (cu1) {Curator};
+    \node [block, right of=cu1] (mu1) {Museum};
+    \path [line] (cu1) -- node[custom_circle]{1}(mu1);
+    
+    % Cu -> Of
+    \node [block, below of=cu1, node distance = 1cm] (cu2) {Curator};
+    \node [block, right of=cu2] (of1) {Office};
+    \path [line] (cu2) -- node[custom_circle]{2}(of1);
+    
+    % Cu -> Ho
+    \node [block, below of=cu2, node distance = 1cm] (cu3) {Curator};
+    \node [block, right of=cu3] (ho1) {House};
+    \path [line] (cu3) -- node[custom_circle]{2}(ho1);
+    
+    % Am -> Of
+    \node [block, below of=cu3, node distance = 1cm] (am) {ArtistManager};
+    \node [block, right of=am] (of2) {Office};
+    \path [line] (am) -- node[custom_circle]{1}(of2);
+    
+    % Pro -> Ho
+    \node [block, below of=am, node distance = 1
+    cm] (pro) {Profiler};
+    \node [block, right of=pro] (ho2) {House};
+    \path [line] (pro) -- node[custom_circle]{1}(ho2);
+   \end{tikzpicture}
+   
+   \caption{Cardinality of each association agent-place}
+   \label{figure:mobility_cardinality}
+  \end{figure}
+
   
   \subsubsection{Travel paths}
-  % TODO
+  % TODO text
+  
+  % Curator:
+  % Museum <-> House
+  % Museum <-> Office
   
   
   %%%%%%
