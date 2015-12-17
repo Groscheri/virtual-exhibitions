@@ -137,7 +137,10 @@
       Protocols and Activities:
       \vspace{-10pt}
       \begin{flushleft}
-       \underline{ChooseHighOrLowQualityProduct}, \underline{WaitTwoOrMoreCurators}, DutchAuction, \underline{WaitMoneyOrProductBack}
+       \underline{ChooseHighOrLowQualityProduct}, 
+       %WaitTwoOrMoreCurators, 
+       DutchAuction 
+       %WaitMoneyOrProductBack
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
@@ -154,7 +157,11 @@
       Liveness:
       \vspace{-10pt}
       \begin{flushleft}
-      \small\textsc{Artist Manager} = (\underline{ChooseHighOrLowQualityProduct}, \underline{WaitTwoOrMoreCurators}, DutchAuction, \underline{WaitMoneyOrProductBack})$^\omega$
+      \small\textsc{Artist Manager} = (\underline{ChooseHighOrLowQualityProduct}, 
+      %WaitTwoOrMoreCurators, 
+      DutchAuction 
+      %WaitMoneyOrProductBack
+      )$^\omega$
       \end{flushleft}
       Safety:
       \vspace{-10pt}
@@ -167,6 +174,53 @@
   \caption{Artist manager role}
   \label{figure:role_artist_manager}
   \end{figure}
+  
+  
+  \begin{figure}[ht!]
+    \begin{mdframed}
+      Role Schema: \textsc{Curator} \\ \hrule \vspace{2pt} \hrule \vspace{10pt}
+      Description:\\
+      This role can be seen as an intermediate for selling paintings between the Profiler
+      and the Artist Manager.
+      \\ \hrule \vspace{10pt}
+      Protocols and Activities:
+      \vspace{-10pt}
+      \begin{flushleft}
+       \underline{DefineStrategy}, DutchAuction,
+       \underline{DefineNewPrice},
+       SellPaiting
+      \end{flushleft}
+      \hrule \vspace{10pt}
+      Permissions:\\
+      \vspace{-10pt}
+      \begin{center}
+       reads \textit{paintingName //name of the painting}\\
+	    \textit{offer //offer received for auction}\\
+       changes \textit{strategy //strategy for auction}\\
+       \textit{sellingPrice //new price for painting}
+      \end{center}
+      % ask "artist" to product high or low quality product
+      % auction product
+      \hrule \vspace{10pt}
+      Responsabilities:\\
+      Liveness:
+      \vspace{-10pt}
+      \begin{flushleft}
+      \small\textsc{Curator} = \underline{DefineStrategy}(DutchAuction, $\mid$\underline{DefineNewPrice},
+       SellPaiting$\mid$)$^\omega$
+      \end{flushleft}
+      Safety:
+      \vspace{-10pt}
+      \begin{itemize}
+       \item stratregy is not NULL
+       \item bid $\leq$ availableMoney
+      \end{itemize}
+ % TODO
+    \end{mdframed}
+  \caption{Artist manager role}
+  \label{figure:role_curator}
+  \end{figure}
+  
   
   \subsection{Interaction Model}
   % TODO tables
