@@ -101,22 +101,22 @@
   % TODO text describing the scenario
   
   In the smart museum scenario, we have different actors: artist managers, curators 
-  and profilers. Each actor interacts with each other and has different tasks to 
-  perform.
+  and profilers.
   
-  Firstly, artist manager is responsible to gather paintings or art creations 
+  Firstly, the artist manager is responsible to gather paintings or art creations 
   from a set of different artists he or she is in contact with. The goal of the manager 
   is to sell products with different quality level to profilers.
   
-  In order to sell paintings to profilers, artist manager has to use curators as retailers 
-  because they don't know profilers directly. Thus, they have to provide products with an 
-  announced price to curators which will be responsible to sell it to profilers. Because there 
-  are several curators and only one curator can retail one product, curators have to come and 
-  visit artist manager in order to perform a Dutch auction. This auction will determine which 
-  curator will be asked to retail the product.
+  In order to sell paintings to profilers, the artist manager has to use curators as retailers 
+  because they don't know profilers directly. The curators are associated to a museum and there
+  is only one for each museum. In our model we have 2 museums and consequently 2 curators. The artist manager 
+  provides a product with an announced price to curators who will afterwards
+  sell it to profilers. Because there are 2 curators and only one of them can buy 
+  the product, curators have to visit the artist manager in order to take part in a Dutch auction. 
+  This auction will determine which curator gets the product.
   
-  Finally, Profiler can explore different products offered by curators and tell whether he or 
-  she wants to buy the product at the displayed price.
+  Finally, the profiler receives suggestions of products offered by curators and can choose whether he or 
+  she wants to buy the product at the displayed price or not.
   
   % TODO put schemes (the one in instructions ?)
   
@@ -221,7 +221,7 @@
       \end{itemize}
  % TODO
     \end{mdframed}
-  \caption{Artist manager role}
+  \caption{Curator role}
   \label{figure:role_curator}
   \end{figure}
   
@@ -265,7 +265,7 @@
       \end{itemize}
  % TODO
     \end{mdframed}
-  \caption{Artist manager role}
+  \caption{Profiler role}
   \label{figure:role_profiler}
   \end{figure}
   
