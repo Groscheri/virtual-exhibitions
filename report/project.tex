@@ -11,10 +11,7 @@
 \usepackage[usenames, dvipsnames]{xcolor} % color
 \usepackage[framemethod=TikZ]{mdframed} % box
 \usepackage{listings} % code
-\usepackage{minted} % code
 %\usepackage{amsmath} % align* maths
-\usepackage{wrapfig} % wrap figure (float)
-\usepackage[section]{placeins} % float inside section
 \usepackage[bookmarks, hidelinks, linktoc=all]{hyperref} % clickable links
 \usepackage{graphicx} % includegraphics
 \usepackage{indentfirst} % indentation
@@ -144,10 +141,15 @@
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
-      TODO % TODO
+      \vspace{-10pt}
+      \begin{center}
+       reads \textit{paintingName //name of the painting}\\
+	    \textit{paymentReceived //payment received for a painting}\\
+       changes \textit{paintingPrice //price of painting}
+      \end{center}
       % ask "artist" to product high or low quality product
       % auction product
-      \\ \hrule \vspace{10pt}
+      \hrule \vspace{10pt}
       Responsabilities:\\
       Liveness:
       \vspace{-10pt}
@@ -158,6 +160,7 @@
       \vspace{-10pt}
       \begin{itemize}
        \item $Money > 0$
+       \item $Paintings >= 0$
       \end{itemize}
  % TODO
     \end{mdframed}
