@@ -1,0 +1,317 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[font=small,labelfont=bf, textfont=it]{caption}
+%\usepackage[top=1.5cm, bottom=1.5cm, left=2cm, right=2cm]{geometry} % to change padding
+\usepackage{verbatim}
+\usepackage{subcaption} % for multi figure
+\usepackage{enumitem} % -- label item
+\usepackage{tabularx} % table
+\usepackage{color}
+\usepackage[usenames, dvipsnames]{xcolor} % color
+\usepackage[framemethod=TikZ]{mdframed} % box
+\usepackage{listings} % code
+\usepackage{minted} % code
+%\usepackage{amsmath} % align* maths
+\usepackage{wrapfig} % wrap figure (float)
+\usepackage[section]{placeins} % float inside section
+\usepackage[bookmarks, hidelinks, linktoc=all]{hyperref} % clickable links
+\usepackage{graphicx} % includegraphics
+\usepackage{indentfirst} % indentation
+\usepackage{titlesec} % spacing between sections
+\usepackage{multicol} % multi columns
+% \usepackage{tocloft}
+%\setlength\cftaftertoctitleskip{50pt} % toc space after title
+%\setlength{\cftbeforetoctitleskip}{-3em} % toc space before title
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{0.9em} % paragraph vertical space
+
+\renewcommand\thesection{\arabic{section}} % start section from 1
+\setcounter{tocdepth}{1} % display subsection in toc
+\setcounter{secnumdepth}{3} % number subsubsection
+
+% space before lists
+%\setlist[itemize]{topsep=0pt}
+%\setlist[enumerate]{topsep=0pt}
+
+% spacing between figure and caption
+% \setlength{\abovecaptionskip}{2pt plus 2pt minus 4pt} % default: 10pt
+
+% Titre
+% \title{Distributed Artificial Intelligence \& Intelligent Agents \\ DAIIA - Project}
+% \author{Laurentiu CAPATINA \& Quentin LEMAIRE}
+
+\begin{document}
+
+  % first page
+  \pagenumbering{Alph}
+\begin{titlepage}
+  \centering
+  \vspace*{\stretch{1}}
+  \vfill
+    {\bfseries\Large{
+	Distributed Artificial Intelligence\\\&\\Intelligent Agents}
+    }
+  \vfill
+  \vfill
+    \Huge{\textsc{Smart Museum}}
+    \\\vspace{10pt}
+    \Large{Project report}
+  \vfill
+      \Large{\textsc{Laurentiu Capatina} \& \textsc{Quentin Lemaire}}
+    \\
+  \vspace{0.4cm}
+    Group 5
+  \vfill
+  \vfill
+    % \includegraphics[width=0.22\textwidth]{media/kth.jpg}
+    KTH Royal Institute of Technology
+  \vfill
+    \today
+  \vspace*{\stretch{1}}
+  \thispagestyle{empty}
+\end{titlepage}
+\pagenumbering{arabic}
+
+\addtocontents{toc}{\protect\thispagestyle{empty}} % remove toc pagination
+\tableofcontents{} % toc
+\clearpage % leave a page
+\setcounter{page}{1} % init counter page
+
+  \section{Introduction}
+  % TODO describe aim of the project
+  % TODO describe briefly different tasks
+  
+  This project deals with \textbf{Agent Oriented Software Engineering} (AOSE) in the 
+  context of a virtual exhibitions (smart museum). The aim is to model a multi-agent 
+  system with specific methods of modelisation: GAIA and Role-base modeling.
+  As a consequence of the previous works, this project reuses concepts we learnt 
+  during lectures and homeworks: behaviors, messaging, negotiation, mobility, ...
+  
+  
+  %%%%%%
+  
+  
+  \section{GAIA Methodology} % task 1
+  % Model your system via GAIA AOSE Methodology
+  % Agent Oriented Sofware Engineering (AOSE)
+  
+  \subsection{Requirements statement}
+  % TODO text describing the scenario
+  
+  In the smart museum scenario, we have different actors: artist managers, curators 
+  and profilers. Each actor interacts with each other and has different tasks to 
+  perform.
+  
+  Firstly, artist manager is responsible to gather paintings or art creations 
+  from a set of different artists he or she is in contact with. The goal of the manager 
+  is to sell products with different quality level to profilers.
+  
+  In order to sell paintings to profilers, artist manager has to use curators as retailers 
+  because they don't know profilers directly. Thus, they have to provide products with an 
+  announced price to curators which will be responsible to sell it to profilers. Because there 
+  are several curators and only one curator can retail one product, curators have to come and 
+  visit artist manager in order to perform a Dutch auction. This auction will determine which 
+  curator will be asked to retail the product.
+  
+  Finally, Profiler can explore different products offered by curators and tell if they want to 
+  buy or not the product at the displayed price.
+  
+  % TODO put schemes (the one in instructions ?)
+  
+  \subsection{Roles model}
+  % TODO tables
+  
+  Different roles can be modeled in our scenario:
+  \begin{itemize}
+   \item Artist Manager role (described in Figure~\ref{figure:role_artist_manager})
+   \item Curator role (described in Figure~) % TODO
+   \item Profiler role (described in Figure~) % TODO
+  \end{itemize}
+
+  % TODO
+  \begin{figure}[ht!]
+    \begin{mdframed}
+      Role Schema: \textsc{Artist Manager} \\ \hrule \vspace{2pt} \hrule \vspace{10pt}
+      Description:\\
+      Gathers high or low quality products and acts as auctioneer with Curators.
+      \\ \hrule \vspace{10pt}
+      Protocols and Activities:
+      \vspace{-10pt}
+      \begin{flushleft}
+       \underline{ChooseHighOrLowQualityProduct}, \underline{WaitTwoOrMoreCurators}, DutchAuction, \underline{WaitMoneyOrProductBack}
+      \end{flushleft}
+      \hrule \vspace{10pt}
+      Permissions:\\
+      TODO % TODO
+      % ask "artist" to product high or low quality product
+      % auction product
+      \\ \hrule \vspace{10pt}
+      Responsabilities:\\
+      Liveness:
+      \vspace{-10pt}
+      \begin{flushleft}
+      \small\textsc{Artist Manager} = (\underline{ChooseHighOrLowQualityProduct}, \underline{WaitTwoOrMoreCurators}, DutchAuction, \underline{WaitMoneyOrProductBack})$^\omega$
+      \end{flushleft}
+      Safety:
+      \vspace{-10pt}
+      \begin{itemize}
+       \item $Money > 0$
+      \end{itemize}
+ % TODO
+    \end{mdframed}
+  \caption{Artist manager role}
+  \label{figure:role_artist_manager}
+  \end{figure}
+  
+  \subsection{Interaction Model}
+  % TODO tables
+  
+  \subsection{Agent Model}
+  % TODO Identification of each agent type
+  
+  \subsection{Service Model}
+  % TODO for each protocol
+  % Service | Input | Output | Preconditions | Postconditions
+  
+  \subsection{Acquaintance Model}
+  % TODO Show the communication links between the agents
+  
+  \subsection{Mobility Model}
+  % TODO
+  % a. Identification of place types (example: Museo Galileo
+  % Museum).
+  % b. Identification of relationships between agent types and
+  % place types
+  % c. Definition of the cardinality between agent types and
+  % place types
+  % d. Identification of the travel path of each mobile agent
+
+  \subsubsection{Place types}
+  % TODO
+  
+  \subsubsection{Relationships}
+  % TODO
+  
+  \subsubsection{Cardinality}
+  % TODO  
+  
+  \subsubsection{Travel paths}
+  % TODO
+  
+  
+  %%%%%%
+  
+  
+  \section{Agent Interaction Protocols} % task 2
+  % Model interactions among agents in AgentUML
+  
+  
+  \subsection{Overall protocol} % level 1
+  % TODO Output: Detailed package and template diagrams 
+  %              + brief description
+  
+  
+  \subsection{Interactions among agents}
+  % TODO Output: Sequence diagrams + brief description
+  
+  
+  \subsection{Internal agent processing}
+  % TODO Output: State chart diagrams + brief description
+
+
+  %%%%%%
+  
+  
+  \section{Behaviors design} % task 3
+  % UML diagrams to design behavior of your agents
+  
+  % TODO UML class diagrams according to the descriptions 
+  %      found in the reference
+
+  
+  %%%%%%
+  
+  \clearpage % TODO to remove
+  
+  \section{Role-based modeling} % task 4
+  % Model your system using "Role based modeling" approach
+  
+  \subsection{Modeling}
+  % TODO Task 4.1 Perform role-based modeling using
+  %               RoMAS for the initial task.	
+  
+  \subsection{Comparison with GAIA}
+  % TODO Task 4.2 Comment on differences in resulting
+  %               designs of 4.1 and GAIA (from Task 1).
+  % (i.e. Analysis phase of GAIA against performing 
+  %  role-based modeling as first step to GAIA analysis)
+
+  
+  %%%%%%
+  
+  
+  \section{JADE and other agent platforms} % task 5
+  % There are number of implementations of agent platforms which conform to 
+  % FIPA specifications. Perform a comparison of at least 2 other agent 
+  % platforms with JADE
+  
+  % Some other platforms: Agent Development Kit, FIPA-OS, 
+  %                       Jack Intelligent Agents, ZEUS, 
+  %                       SAGE, ...
+  % TODO choose 2 of them
+  
+  \subsection{platform 1} % TODO to choose
+  
+  \subsubsection{Architecture}
+  % TODO Architecture of platform
+  
+  \subsubsection{Services provided}
+  % TODO Services provided by platform
+  
+  \subsubsection{Simple scenario}
+  % TODO Comparison of implementation of a simple scenario same as Question 2 (??)
+  % (i.e. service implementation, service registration and service discovery)
+  
+  \subsubsection{Notable projects}
+  % TODO List some notable projects which use that platform
+  
+  \subsubsection{Personnel opinion}
+  % TODO Your personnel opinion/judgment about the platform as compared to JADE
+  % Yo can take part 3 (simple scenario) as your starting point, and explain the 
+  % architecture and services the platform provides from a practical point of view
+  
+  \subsection{platform 2} % TODO to choose 
+  
+  \subsubsection{Architecture}
+  % TODO Architecture of platform
+  
+  \subsubsection{Services provided}
+  % TODO Services provided by platform
+  
+  \subsubsection{Simple scenario}
+  % TODO Comparison of implementation of a simple scenario same as Question 2 (??)
+  % (i.e. service implementation, service registration and service discovery)
+  
+  \subsubsection{Notable projects}
+  % TODO List some notable projects which use that platform
+  
+  \subsubsection{Personnel opinion}
+  % TODO Your personnel opinion/judgment about the platform as compared to JADE
+  % Yo can take part 3 (simple scenario) as your starting point, and explain the 
+  % architecture and services the platform provides from a practical point of view
+  
+  
+  %%%%%%
+  
+  
+  \section{Conclusion}
+  % TODO what this project gave us ?
+
+  
+% bibliography
+%\bibliographystyle{plainurl}
+%\bibliography{references}
+
+\end{document}
