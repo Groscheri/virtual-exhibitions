@@ -17,6 +17,8 @@
 \usepackage{indentfirst} % indentation
 \usepackage{titlesec} % spacing between sections
 \usepackage{multicol} % multi columns
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
 % \usepackage{tocloft}
 %\setlength\cftaftertoctitleskip{50pt} % toc space after title
 %\setlength{\cftbeforetoctitleskip}{-3em} % toc space before title
@@ -226,24 +228,83 @@
   % TODO tables
   
   \subsection{Agent Model}
-  % TODO Identification of each agent type
+  % Identification of each agent type
   
   % Artist Manager -> 1 ArtistManagerAgent
   % Curator -> + CuratorAgent
   % Profiler -> 1 ProfilerAgent
   
+  Agent model is describe below in Figure~\ref{figure:agent_model}.
+  
+\tikzstyle{block} = [rectangle, draw, %fill=blue!20, 
+    text width=8em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+    
+\begin{figure}[ht!]
+\begin{tikzpicture}[node distance = 4cm, auto]
+    % Place nodes
+    \node [block] (ama) {ArtistManager Agent};
+    \node [block, above of=ama, node distance=2cm] (am) {ArtistManager};
+    
+    \node [block, right of=ama] (cua) {Curator Agent};
+    \node [block, above of=cua, node distance=2cm]  (cu) {Curator};
+
+    \node [block, right of=cua] (proa) {Profiler Agent};
+    \node [block, above of=proa, node distance=2cm] (pro) {Profiler};
+    
+    \path [line] (am) -- node {1}(ama);
+    \path [line] (cu) -- node {+}(cua);
+    \path [line] (pro) -- node {1}(proa);
+\end{tikzpicture}
+\caption{Agent model}
+\label{figure:agent_model}
+\end{figure}
+
+  
   \subsection{Service Model}
   % TODO for each protocol
   % Service | Input | Output | Preconditions | Postconditions
+  
+  The Table~\ref{table:service_model} describes all services.
+  
+  \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+  \begin{table}[ht!]
+  \begin{tabular}{|l|l|l|l|l|}
+  \thead{Service} & \thead{Input} & \thead{Output} & \thead{Preconditions} & \thead{Postconditions} \\\hline
+  - & - & - & - & - \\ \hline
+  - & - & - & - & - \\ \hline
+  \end{tabular}
+  
+  \caption{Service model}
+  \label{table:service_model}
+  \end{table}
+
   
   % DutchAuction (ArtistManagerAgent <-> CuratorAgent(s))
   % ExploreProducts (ProfilerAgent <-> CuratorAgent(s))
   % BuyProduct (ProfilerAgent <-> CuratorAgent)
   
   \subsection{Acquaintance Model}
-  % TODO Show the communication links between the agents
-  
+  % Show the communication links between the agents
   % ArtistManagerAgent <-> CuratorAgent(s) <-> Profiler
+  
+  Figure~\ref{figure:acquaintance_model} shows the communication links between the agents. 
+  Indeed, ArtistManagerAgent communicates with CuratorAgents and the latter communicate with 
+  ProfilerAgent.
+  
+  \begin{figure}[ht!]
+\begin{tikzpicture}[node distance = 4cm, auto]
+    % Place nodes
+    \node [block] (ama) {ArtistManager Agent};
+    \node [block, right of=ama] (cua) {Curator Agent};
+    \node [block, right of=cua] (proa) {Profiler Agent};
+    
+    \draw[open triangle 45-open triangle 45] (ama) -- (cua);
+    \draw[open triangle 45-open triangle 45] (cua) -- (proa);
+\end{tikzpicture}
+\caption{Acquaintance model}
+\label{figure:acquaintance_model}
+\end{figure}
   
   \subsection{Mobility Model}
   % TODO
