@@ -3,6 +3,7 @@
 \usepackage[english]{babel}
 \usepackage[font=small,labelfont=bf, textfont=it]{caption}
 %\usepackage[top=1.5cm, bottom=1.5cm, left=2cm, right=2cm]{geometry} % to change padding
+\usepackage{geometry}
 \usepackage{verbatim}
 \usepackage{subcaption} % for multi figure
 \usepackage{enumitem} % -- label item
@@ -126,8 +127,8 @@
   Different roles can be modeled in our scenario:
   \begin{itemize}
    \item Artist Manager role (described in Figure~\ref{figure:role_artist_manager})
-   \item Curator role (described in Figure~) % TODO
-   \item Profiler role (described in Figure~) % TODO
+   \item Curator role (described in Figure~\ref{figure:role_curator})
+   \item Profiler role (described in Figure~\ref{figure:role_profiler})
   \end{itemize}
 
   % TODO
@@ -376,6 +377,7 @@
 \tikzstyle{line} = [draw, -latex']
     
 \begin{figure}[ht!]
+\centering
 \begin{tikzpicture}[node distance = 4cm, auto]
     % Place nodes
     \node [block] (ama) {ArtistManager Agent};
@@ -402,18 +404,40 @@
   
   The Table~\ref{table:service_model} describes all services.
   
+  \newcolumntype{L}[1]{>{\hsize=#1\hsize\raggedright\arraybackslash}X}%
+  \newcolumntype{R}[1]{>{\hsize=#1\hsize\raggedleft\arraybackslash}X}%
+  \newcolumntype{C}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}%
+  
   \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+  
+  \newgeometry{left=1cm,right=1cm}
   \begin{table}[ht!]
-  \begin{tabular}{|l|l|l|l|l|}
+  \centering
+  \begin{tabularx}{\linewidth}{@{}|L{2.0}|C{0.4}|C{0.4}|L{1.2}|L{1}|@{}}
   \thead{Service} & \thead{Input} & \thead{Output} & \thead{Preconditions} & \thead{Postconditions} \\\hline
-  - & - & - & - & - \\ \hline
-  - & - & - & - & - \\ \hline
-  \end{tabular}
+  Choose a high or low quality product & - & product & product available & - \\ \hline
+  Call for proposal (auction) & offer & - & price $<$ previous price & - \\ \hline
+  Propose a price (bid) & price & - & price $==$ CFP price & - \\ \hline
+  Manage proposals & price(s) & winner & 1 or more prices & 1 winner \\ \hline
+  Accept proposal & winner & money & - & - \\ \hline
+  Refuse proposal (end of auction) & agent & - & - & - \\ \hline
+  Choose strategy & - & strategy & - & - \\ \hline
+  Define new price & price$_{old}$ & price$_{new}$ & - & price$_{new} >$ price$_{old}$ \\ \hline
+  Propose a product & offer & - & product & - \\ \hline
+  Wait response & - & - & - & response \\ \hline
+  Define budget & - & budget & - & budget $\leq$ money \\ \hline
+  Wait offer & - & offer & - & - \\ \hline
+  Buy product & money & product & money $\leq$ budget & - \\ \hline
+  Reject product & - & - & - & - \\ \hline
+  Reveal quality & product & quality & - & - \\ \hline
+  
+  
+  \end{tabularx}
   
   \caption{Service model}
   \label{table:service_model}
   \end{table}
-
+  \restoregeometry
   
   % DutchAuction (ArtistManagerAgent <-> CuratorAgent(s))
   % ExploreProducts (ProfilerAgent <-> CuratorAgent(s))
@@ -428,7 +452,8 @@
   ProfilerAgent.
   
   \begin{figure}[ht!]
-\begin{tikzpicture}[node distance = 4cm, auto]
+  \centering
+\begin{tikzpicture}[node distance = 5cm, auto]
     % Place nodes
     \node [block] (ama) {ArtistManager Agent};
     \node [block, right of=ama] (cua) {Curator Agent};
@@ -463,12 +488,12 @@
   
   \begin{table}[ht!]
   \centering
-  \begin{tabular}{|c|l|c|}
+  \begin{tabularx}{\textwidth}{|C{0.75}|L{1.5}|C{0.75}|}
    \thead{Place Types} & \thead{Description} & \thead{Instances} \\ \hline \hline
    Office & Place where it is possible to work & 1 \\\hline
    Museum & Place which contains exhibitions of paintings \& art & 2\\\hline
    House & Place where it is possible to live & 1 \\\hline
-  \end{tabular}
+  \end{tabularx}
   \caption{Place types}
   \label{table:mobility_places}
   \end{table}
@@ -488,11 +513,19 @@
   \end{table}
   
   \subsubsection{Cardinality}
-  % TODO text
+  
+  Since Curator agents have the ability to move from their museum place 
+  to other places, it is possible to find Curator agents everywhere. On 
+  the contrary, because ArtistManager agent and Profiler agent are statics, 
+  it is not possible to find them anywhere else than in their place. It is 
+  important to notice that both Curator agents can't be in the same museum at 
+  the same time. They are assigned to one museum and visiting the fellow museum 
+  is not allowed. All cardinalities are exposed in Figure~\ref{figure:mobility_cardinality}.
   
   \tikzstyle{custom_circle} = [draw, circle, minimum size=.5cm]
   
   \begin{figure}[ht!]
+   \centering
    \begin{tikzpicture}[node distance = 8cm, auto]
     % Cu -> Mu
     \node [block] (cu1) {Curator};
