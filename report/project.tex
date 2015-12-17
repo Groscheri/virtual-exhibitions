@@ -148,9 +148,7 @@
       Permissions:\\
       \vspace{-10pt}
       \begin{center}
-       reads \textit{paintingName //name of the painting}\\
-	    \textit{paymentReceived //payment received for a painting}\\
-       changes \textit{paintingPrice //price of painting}
+       generates \textit{painting //new painting to sell}
       \end{center}
       % ask "artist" to product high or low quality product
       % auction product
@@ -168,8 +166,8 @@
       Safety:
       \vspace{-10pt}
       \begin{itemize}
-       \item $Money > 0$
-       \item $Paintings >= 0$
+       \item $money > 0$
+       \item $paintings \geq 0$
       \end{itemize}
  % TODO
     \end{mdframed}
@@ -190,7 +188,7 @@
       \begin{flushleft}
        \underline{DefineStrategy}, DutchAuction,
        \underline{DefineNewPrice},
-       SellPaiting
+       ProposeProduct, WaitResponse
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
@@ -199,7 +197,7 @@
        reads \textit{paintingName //name of the painting}\\
 	    \textit{offer //offer received for auction}\\
        changes \textit{strategy //strategy for auction}\\
-       \textit{sellingPrice //new price for painting}
+       \textit{paintingPrice //new price for painting}
       \end{center}
       % ask "artist" to product high or low quality product
       % auction product
@@ -209,18 +207,65 @@
       \vspace{-10pt}
       \begin{flushleft}
       \small\textsc{Curator} = \underline{DefineStrategy}(DutchAuction, $\mid$\underline{DefineNewPrice},
-       SellPaiting$\mid$)$^\omega$
+       ProposeProduct, WaitResponse$\mid$)$^\omega$
       \end{flushleft}
       Safety:
       \vspace{-10pt}
       \begin{itemize}
-       \item stratregy is not NULL
-       \item bid $\leq$ availableMoney
+      \item $budget > 0$
+       \item $paintings \geq 0$
+       \item $paintingPrice > 0$
+       \item $stratregy$ is not NULL
+       \item $bidAccepted \leq budget$
       \end{itemize}
  % TODO
     \end{mdframed}
   \caption{Artist manager role}
   \label{figure:role_curator}
+  \end{figure}
+  
+  \begin{figure}[ht!]
+    \begin{mdframed}
+      Role Schema: \textsc{Profiler} \\ \hrule \vspace{2pt} \hrule \vspace{10pt}
+      Description:\\
+      The aim of the profiler is to buy painting from Curators at the best possible
+      price for a high quality product.
+      and the Artist Manager.
+      \\ \hrule \vspace{10pt}
+      Protocols and Activities:
+      \vspace{-10pt}
+      \begin{flushleft}
+       \underline{DefineBudget}, WaitOffer, BuyProduct
+       RejectProduct
+      \end{flushleft}
+      \hrule \vspace{10pt}
+      Permissions:\\
+      \vspace{-10pt}
+      \begin{center}
+       reads \textit{paintingName //name of the painting}\\
+	    \textit{offer //offer for product}\\
+      changes \textit{budget //budget for paintings}
+      \end{center}
+      % ask "artist" to product high or low quality product
+      % auction product
+      \hrule \vspace{10pt}
+      Responsabilities:\\
+      Liveness:
+      \vspace{-10pt}
+      \begin{flushleft}
+      \small\textsc{Curator} = \underline{DefineStrategy}, (WaitOffer, BuyProduct $\mid$
+      RejectProduct)$^\omega$
+      \end{flushleft}
+      Safety:
+      \vspace{-10pt}
+      \begin{itemize}
+      \item $budget > 0$
+       \item \textit{offerAccepted} $\leq budget$
+      \end{itemize}
+ % TODO
+    \end{mdframed}
+  \caption{Artist manager role}
+  \label{figure:role_profiler}
   \end{figure}
   
   
