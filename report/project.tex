@@ -270,7 +270,96 @@
   
   
   \subsection{Interaction Model}
-  % TODO tables
+  % ArtistManager -> Curators: DutchAuction
+  % Curators -> Profiler: proposeProduct, waitResponse
+  % Profiler -> Curator: waitOffer, buyProduct, rejectProduct
+
+  The 3 roles of our model interact with each other through protocols. Artist Manager 
+  communicates with Curators thanks to Dutch Auction Protocol (see Table~\ref{table:dutch_auction_protocol}). 
+  Curators communicate with Profiler with 2 different protocols: Propose Product 
+  Protocol (Table~\ref{table:propose_product_protocol}) and Wait Response Protocol (see Table~\ref{table:wait_response_protocol}). 
+  Finally, Profiler interacts with Curators through 3 different protocols: Wait Offer Protocol (see Table~\ref{table:wait_offer_protocol}), 
+  Buy Product Protocol (see Table~\ref{table:buy_product_protocol}) and Reject Product Protocol (see Table~\ref{table:reject_product_protocol}).
+  
+  \newcolumntype{C}[1]{>{\centering}m{#1}}
+  
+  % dutchAuction
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Dutch Auction}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{ArtistManager} & \multicolumn{2}{C{3.5cm}|}{Curators} &  & product \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Process a Dutch Auction in order to buy product offered by ArtistManager}  &  & winner (Curator + price) \\ \cline{1-5}
+  \end{tabular}
+  \caption{Dutch Auction protocol}
+  \label{table:dutch_auction_protocol}
+  \end{table}
+  
+  % proposeProduct
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Propose Product}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{Curator} & \multicolumn{2}{C{3.5cm}|}{Profiler} &  & offer (product + price) \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Propose a product to Profiler}  &  & - \\ \cline{1-5}
+  \end{tabular}
+  \caption{Propose Product protocol}
+  \label{table:propose_product_protocol}
+  \end{table}
+  
+  % waitResponse
+    \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Wait Response}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{Curator} & \multicolumn{2}{C{3.5cm}|}{Profiler} &  & - \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Wait a response from the Profiler}  &  & response (accept or reject) \\ \cline{1-5}
+  \end{tabular}
+  \caption{Wait Response protocol}
+  \label{table:wait_response_protocol}
+  \end{table}
+  
+  % waitOffer
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Wait offer}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{Profiler} & \multicolumn{2}{C{3.5cm}|}{Curator} &  & - \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Wait offer from a Curator}  &  & offer (product + price) \\ \cline{1-5}
+  \end{tabular}
+  \caption{Wait Offer protocol}
+  \label{table:wait_offer_protocol}
+  \end{table}
+  
+  % buyProduct
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Buy product}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{Profiler} & \multicolumn{2}{C{3.5cm}|}{Curator} &  & money \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Buy a product proposed by a Curator}  &  & product \\ \cline{1-5}
+  \end{tabular}
+  \caption{Buy product protocol}
+  \label{table:buy_product_protocol}
+  \end{table}
+  
+  % rejectProduct
+  \begin{table}[ht!]
+  \centering
+  \begin{tabular}{|c|l|c|l|ll}
+  \cline{1-4}
+  \multicolumn{4}{|c|}{Reject product}   &  &  \\ \cline{1-4}
+  \multicolumn{2}{|C{3.5cm}|}{Profiler} & \multicolumn{2}{C{3.5cm}|}{Curator} &  & - \\ \cline{1-5}
+  \multicolumn{4}{|m{7cm}|}{Reject a product proposed by a Curator}  &  & - \\ \cline{1-5}
+  \end{tabular}
+  \caption{Reject product protocol}
+  \label{table:reject_product_protocol}
+  \end{table}
   
   \subsection{Agent Model}
   % Identification of each agent type
