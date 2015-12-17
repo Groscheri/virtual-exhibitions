@@ -198,7 +198,7 @@
     \node [block, right of=cua] (proa) {Profiler Agent};
     \node [block, above of=proa, node distance=2cm] (pro) {Profiler};
     
-    \path [line, ] (am) -- node {1}(ama);
+    \path [line] (am) -- node {1}(ama);
     \path [line] (cu) -- node {+}(cua);
     \path [line] (pro) -- node {1}(proa);
 \end{tikzpicture}
@@ -211,9 +211,10 @@
   % TODO for each protocol
   % Service | Input | Output | Preconditions | Postconditions
   
-  \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+  The Table~\ref{table:service_model} describes all services.
   
-  \begin{table}
+  \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+  \begin{table}[ht!]
   \begin{tabular}{|l|l|l|l|l|}
   \thead{Service} & \thead{Input} & \thead{Output} & \thead{Preconditions} & \thead{Postconditions} \\\hline
   - & - & - & - & - \\ \hline
@@ -230,11 +231,26 @@
   % BuyProduct (ProfilerAgent <-> CuratorAgent)
   
   \subsection{Acquaintance Model}
-  % TODO Show the communication links between the agents
-  
-  
-  
+  % Show the communication links between the agents
   % ArtistManagerAgent <-> CuratorAgent(s) <-> Profiler
+  
+  Figure~\ref{figure:acquaintance_model} shows the communication links between the agents. 
+  Indeed, ArtistManagerAgent communicates with CuratorAgents and the latter communicate with 
+  ProfilerAgent.
+  
+  \begin{figure}[ht!]
+\begin{tikzpicture}[node distance = 4cm, auto]
+    % Place nodes
+    \node [block] (ama) {ArtistManager Agent};
+    \node [block, right of=ama] (cua) {Curator Agent};
+    \node [block, right of=cua] (proa) {Profiler Agent};
+    
+    \draw[open triangle 45-open triangle 45] (ama) -- (cua);
+    \draw[open triangle 45-open triangle 45] (cua) -- (proa);
+\end{tikzpicture}
+\caption{Acquaintance model}
+\label{figure:acquaintance_model}
+\end{figure}
   
   \subsection{Mobility Model}
   % TODO
