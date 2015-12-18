@@ -652,22 +652,26 @@
   
   \begin{figure}[ht!]
     \begin{subfigure}{0.5\textwidth}
+       \centering
        \includegraphics[width=\textwidth]{media/use_cases_1.png}
        \caption{Auctioneer, Bidder and Proposer use cases}
        \label{figure:use_cases_1}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
+       \centering
        \includegraphics[width=\textwidth]{media/use_cases_2.png}
        \caption{Product choose, Strategist and Decision maker use cases}
        \label{figure:use_cases_2}
     \end{subfigure}
     
     \begin{subfigure}{0.5\textwidth}
+       \centering
        \includegraphics[width=\textwidth]{media/use_cases_3.png}
        \caption{Buyer, Rejecter, Revealer use cases}
        \label{figure:use_cases_3}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
+       \centering
        \includegraphics[width=\textwidth]{media/use_cases_4.png}
        \caption{Mover use cases}
        \label{figure:use_cases_4}
@@ -806,6 +810,7 @@
   Figure~\ref{figure:role_organization} displays roles organization in smart museum scenario.
   
   \begin{figure}[ht!]
+    \centering
     \includegraphics[width=\textwidth]{media/roles_organization.png}
     \caption{Role organization}
     \label{figure:role_organization}
@@ -822,21 +827,57 @@
   %      (5) Generates agents according to roles; Go to (4).I.
   %      (6) Generates codes for agents with roles bound;
 
+  For each role, it is possible to bind an appropriate agent. Thanks to the previous part, 
+  it is easy to find our agents:
+  
+  \newcommand{\ama}{\textit{ArtistManagerAgent}}
+  \newcommand{\cua}{\textit{CuratorAgent}}
+  \newcommand{\proa}{\textit{ProfilerAgent}}
+  
+  \begin{itemize}
+   \itemsep0pt
+   \item \ama{}: responsible to choose a product and give it to the \cua{} for the product to 
+   be sold. Roles transition are displayed in state diagram in Figure~\ref{figure:role_transition_ama}.
+   \item \cua{}: responsible to move from museum to office and then to house in order to 
+   act as bidders with \ama{} and then retail product to \proa{}. Roles transition are displayed in 
+   state diagram in Figure~\ref{figure:role_transition_cua}.
+   \item \proa{}: try to buy products offered by \cua{} at the best prices and reveal its qualities. 
+   Roles transition are displayed in state diagram in Figure~\ref{figure:role_transition_proa}.
+  \end{itemize}
+  
+
   % Agents TODO define attributes / methods like in Fig. 5 :
   % - ArtistManagerAgent (Product chooser, Auctionner)
   % - CuratorAgent (Bidder, Strategist, Proposer, Mover)
   % - Profiler (Decision maker, Buyer, Rejecter, Revealer)
   
-  % TODO Role transition ? State diagram ?
+  % Role transition ? => State diagrams
   % - ArtistManagerAgent: Product choose <-> Auctionner
   % - CuratorAgent: Strategist -> Mover -> Bidder -> Mover
   %                 -> Proposer /^/
-  % - Profiler: Decision maker -> Buyer -> Revealer -> Decision maker
-  %                      -> Rejecter -> Decision maker
+  % - ProfilerAgent: Decision maker -> Buyer -> Revealer -> Decision maker
+  %                                 -> Rejecter -> Decision maker
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{media/role_transition_ama.png}
+    \caption{Roles transition of ArtistManagerAgent}
+    \label{figure:role_transition_ama}
+  \end{figure}
   
-  \clearpage % TODO to remove
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{media/role_transition_cua.png}
+    \caption{Roles transition of CuratorAgent}
+    \label{figure:role_transition_cua}
+  \end{figure}
   
-  
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[height=7cm]{media/role_transition_proa.png}
+    \caption{Roles transition of ProfilerAgent}
+    \label{figure:role_transition_proa}
+  \end{figure}
+
   \subsection{Comparison with GAIA}
   % TODO Task 4.2 Comment on differences in resulting
   %               designs of 4.1 and GAIA (from Task 1).
