@@ -613,14 +613,88 @@
   
   %%%%%%
   
-  \clearpage % TODO to remove
-  
   \section{Role-based modeling} % task 4
   % Model your system using "Role based modeling" approach
   
-  \subsection{Modeling}
+  \subsection{RoMAS}
   % TODO Task 4.1 Perform role-based modeling using
-  %               RoMAS for the initial task.	
+  %               RoMAS for the initial task.
+  
+  \subsubsection{Use cases}
+  % TODO (1) Captures use cases;
+  
+  % Actors:
+  % - Product chooser
+  % - Auctionner (DutchAuction)
+  % - Bidder (DutchAuction)
+  % - Strategist
+  % - Proposer
+  % - Buyer
+  % - Rejecter
+  % - Revealer
+  % - Mover
+  
+  % Use cases:
+  % - Choose product (high or low quality)
+  % - Auctionneer (DutchAuction): Call for proposal / Manage proposals / Accept proposal / Refuse proposal(s)
+  % - Bidder (DutchAuction): Propose
+  % - Choose strategy
+  % - Define a new price
+  % - Propose an offer (product + price)
+  % - Decision maker => Define budget
+  % - Buy a product
+  % - Reject a product
+  % - Reveal quality (Buy a product)
+  % - Move
+  % - Move to Office (Move)
+  % - Move to House (Move)
+  
+  \subsubsection{Roles}
+  % TODO (2) Identify roles from use cases;
+  % Goals / Attributes / Services (methods)
+  
+  % Roles:
+  % - Product chooser : product list / getHighQuality / getLowQuality
+  % - Auctionner (DutchAuction) : call for proposal (price) / accept / refuse
+  % - Bidder (DutchAuction) : propose / bid
+  % - Strategist : strategy list / choose strategy / define new price
+  % - Proposer : propose offer
+  % - Decision maker: budget / define budget / choose action(proposal)
+  % - Buyer : buy product
+  % - Rejecter : reject product
+  % - Revealer : reveal quality
+  % - Mover : move to house / move to office / move to museum
+  
+  \subsubsection{Role organization}
+  % TODO (3) Constructs role organization;
+  
+  % Artist Manager  <-> Curator <-> Profiler
+  % reuse previous role to construct organization
+  
+  \subsubsection{Binding roles-agents}
+  % TODO (4) For each role, if the appropriate agent 
+  %          does not exist, then go to (5); else
+  %          I. Binds roles to agents
+  %          II. Describes dynamic properties of bind 
+  %              relation between agents and roles
+  %          III. Go to (6)
+  %      (5) Generates agents according to roles; Go to (4).I.
+  %      (6) Generates codes for agents with roles bound;
+
+  % Agents TODO define attributes / methods like in Fig. 5 :
+  % - ArtistManagerAgent (Product chooser, Auctionner)
+  % - CuratorAgent (Bidder, Strategist, Proposer, Mover)
+  % - Profiler (Decision maker, Buyer, Rejecter, Revealer)
+  
+  % TODO Role transition ? State diagram ?
+  % - ArtistManagerAgent: Product choose <-> Auctionner
+  % - CuratorAgent: Strategist -> Mover -> Bidder -> Mover
+  %                 -> Proposer /^/
+  % - Profiler: Decision maker -> Buyer -> Revealer -> Decision maker
+  %                      -> Rejecter -> Decision maker
+  
+  \clearpage % TODO to remove
+  
   
   \subsection{Comparison with GAIA}
   % TODO Task 4.2 Comment on differences in resulting
@@ -628,6 +702,14 @@
   % (i.e. Analysis phase of GAIA against performing 
   %  role-based modeling as first step to GAIA analysis)
 
+  Compared to GAIA analysis, role-based modeling (RoMAS) allows dynamic roles 
+  for each agent. Based on use cases and actors, it is possible to find out 
+  roles in the system. GAIA, on the other hand doesn't provide such method and 
+  it goes first in roles definition with 4 different characteristics: responsabilities, 
+  permissions, protocols and activities. RoMAS also produces organizational 
+  diagram in order to outline roles interactions while GAIA asks for an acquaintance 
+  model. Roles are seen as states where it is possible to perform actions (like 
+  behaviors in JADE framework) in role-based modeling.
   
   %%%%%%
   
