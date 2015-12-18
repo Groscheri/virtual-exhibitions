@@ -122,7 +122,6 @@
   % TODO put schemes (the one in instructions ?)
   
   \subsection{Roles model}
-  % TODO tables
   
   Different roles can be modeled in our scenario:
   \begin{itemize}
@@ -587,18 +586,18 @@
   \subsection{Overall protocol} % level 1
   The overall protocol can be described through the package view as well as
   through the generic templates. Our model contains 2 packages (\textit{Auction package}
-  and \textit{Selleing package}) which can be seen in Figure ~\ref{figure:package}.
+  and \textit{Selling package}) which can be seen in Figure~\ref{figure:package}.
   Two templates were created in order to outline the two important events that take
-  place in our model. Figure ~\ref{figure:auctionProtocol} displays the parametric auction protocol.
+  place in our model. Figure~\ref{figure:auctionProtocol} displays the parametric auction protocol.
   As parameters we have the participants at an auction. Moreover, \textit{waitTime} can be seen
   as a timeout after which no acceptance of an offer is taken into consideration. On the 
   other hand, we also have a template for the selling of a painting which
-  is displayed in Figure ~\ref{figure:sellProtocol}. The actors of this protocol are \textit{Buyer}
+  is displayed in Figure~\ref{figure:sellProtocol}. The actors of this protocol are \textit{Buyer}
   and \textit{Seller}.
   
    \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{media/package.png}
+    \includegraphics[height=8cm]{media/package.png}
     \caption{Detailed package of model}
     \label{figure:package}
    \end{figure}
@@ -612,14 +611,14 @@
    
    \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{media/sell_protocol.png}
+    \includegraphics[height=8cm]{media/sell_protocol.png}
     \caption{Template for sell protocol}
     \label{figure:sellProtocol}
    \end{figure}
   
   \subsection{Interactions among agents}
   Three types of agents are present in our model: \textit{Artist Manager}, \textit{Curator}
-  and \textit{Profiler}. Figure ~\ref{figure:extSeqDiag} diaplys the interactions between
+  and \textit{Profiler}. Figure~\ref{figure:extSeqDiag} displays the interactions between
   the agents. We observe that Curator is the only agent who has two roles in two
   different protocols. The role change takes place once the auction is finished and
   the the Curator has something to sell. Moreover, another important aspect are the concurrent
@@ -641,21 +640,21 @@
   
    \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{media/statechart_artistM.png}
+    \includegraphics[height=8cm]{media/statechart_artistM.png}
     \caption{Internal process of Artist Manager}
     \label{figure:statechartArtistM}
    \end{figure}
    
    \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{media/statechart_curator.png}
+    \includegraphics[height=0.9\textheight]{media/statechart_curator.png}
     \caption{Internal process of Curator}
     \label{figure:statechartCurator}
    \end{figure}
 
    \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{media/statechart_profiler.png}
+    \includegraphics[width=0.9\textwidth]{media/statechart_profiler.png}
     \caption{Internal process of Profiler}
     \label{figure:statechartProfiler}
    \end{figure}
@@ -771,7 +770,7 @@
   products. It is possible to select a high or a low quality product in order to sell it 
   later.\\
   Attributes: $<$List$>$Product\\
-  Services:
+  Services:\vspace{-5pt}
   \begin{itemize}
     \itemsep0pt
     \item PickHighQualityProduct()
@@ -783,7 +782,7 @@
   \textbf{Auctioneer}'s main goal is to sell product (high or low quality) using Dutch Auction 
   protocol.\\
   Attributes: Price\\
-  Services:
+  Services:\vspace{-5pt}
   \begin{itemize}
     \itemsep0pt
     \item callForProposal(price)
@@ -794,12 +793,18 @@
   \end{mdframed}
   %%%
   \begin{mdframed}
+  \textbf{Buyer}'s main goal is to buy a product from a \textbf{Proposer}.\\
+  Attributes: -\\
+  Services: buyProduct()
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
   \textbf{Bidder} (or \textbf{Proposer})'s main goal is to buy product from auctioneer. Product 
   can be high or low quality but this role doesn't have any idea about the quality of the 
   product. Thus, parameters available are: product and price offered. Bidder is specialized 
   in Dutch Auction protocol.\\
   Attributes: -\\
-  Services: 
+  Services: \vspace{-5pt}
   \begin{itemize}
    \itemsep0pt
    \item propose()
@@ -811,7 +816,7 @@
   \textbf{Strategist}'s main goal is to provide strategy to define new price and set up affordable 
   prices for buyers and bidders.\\
   Attributes: $<$List$>$ Strategy\\
-  Services:
+  Services:\vspace{-5pt}
   \begin{itemize}
     \itemsep0pt
     \item chooseStrategy()
@@ -824,18 +829,12 @@
   role has the opportunity to choose actions to perform next according to strategy 
   defined by \textbf{Strategist}.\\
   Attributes: Budget\\
-  Services:
+  Services:\vspace{-5pt}
   \begin{itemize}
     \itemsep0pt
     \item defineBudget()
     \item chooseAction(proposal)
   \end{itemize}
-  \end{mdframed}
-  %%%
-  \begin{mdframed}
-  \textbf{Buyer}'s main goal is to buy a product from a \textbf{Proposer}.\\
-  Attributes: -\\
-  Services: buyProduct()
   \end{mdframed}
   %%%
   \begin{mdframed}
@@ -853,7 +852,7 @@
   \begin{mdframed}
   \textbf{Mover}'s main goal is to move from place to place in order to perform actions.\\
   Attributes: -\\
-  Services:
+  Services:\vspace{-10pt}
   \begin{itemize}
     \itemsep0pt
     \item moveToHouse()
@@ -881,14 +880,14 @@
   
   
   \subsubsection{Binding roles-agents}
-  % TODO (4) For each role, if the appropriate agent 
-  %          does not exist, then go to (5); else
-  %          I. Binds roles to agents
-  %          II. Describes dynamic properties of bind 
-  %              relation between agents and roles
-  %          III. Go to (6)
-  %      (5) Generates agents according to roles; Go to (4).I.
-  %      (6) Generates codes for agents with roles bound;
+  % (4) For each role, if the appropriate agent 
+  %     does not exist, then go to (5); else
+  %     I. Binds roles to agents
+  %     II. Describes dynamic properties of bind 
+  %         relation between agents and roles
+  %     III. Go to (6)
+  % (5) Generates agents according to roles; Go to (4).I.
+  % (6) Generates codes for agents with roles bound;
 
   For each role, it is possible to bind an appropriate agent. Thanks to the previous part, 
   it is easy to find our agents:
@@ -942,8 +941,8 @@
   \end{figure}
 
   \subsection{Comparison with GAIA}
-  % TODO Task 4.2 Comment on differences in resulting
-  %               designs of 4.1 and GAIA (from Task 1).
+  % Task 4.2 Comment on differences in resulting
+  %          designs of 4.1 and GAIA (from Task 1).
   % (i.e. Analysis phase of GAIA against performing 
   %  role-based modeling as first step to GAIA analysis)
 
@@ -979,7 +978,18 @@
   %                       SAGE, ...
   % TODO choose 2 of them
   
-  \subsection{platform 1} % TODO to choose
+  % Links:
+  % - https://en.wikipedia.org/wiki/FIPA
+  
+  
+  There are several multi-agents platform respecting and implementing FIPA 
+  specifications. Among all of them, we choose to study \textbf{Jack Intelligent 
+  Agents} and \textbf{TODO}. % TODO
+  
+  \subsection{Jack Intelligent Agents}
+  % refs:
+  % - https://en.wikipedia.org/wiki/JACK_Intelligent_Agents
+  % - http://www.aosgrp.com/documentation/jack/Agent_Manual_WEB/index.html#Introduction
   
   \subsubsection{Architecture}
   % TODO Architecture of platform
@@ -998,6 +1008,8 @@
   % TODO Your personnel opinion/judgment about the platform as compared to JADE
   % Yo can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
+  
+  \clearpage % TODO to remove
   
   \subsection{platform 2} % TODO to choose 
   
@@ -1025,6 +1037,8 @@
   
   \section{Conclusion}
   % TODO what this project gave us ?
+  In this project, we discovered several methods to model multi-agents system. We also 
+  introduced 2 MAS platforms and compared both of them with JADE framework.
 
   
 % bibliography
