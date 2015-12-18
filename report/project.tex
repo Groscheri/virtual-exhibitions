@@ -33,8 +33,8 @@
 \setcounter{secnumdepth}{3} % number subsubsection
 
 % space before lists
-%\setlist[itemize]{topsep=0pt}
-%\setlist[enumerate]{topsep=0pt}
+\setlist[itemize]{topsep=0pt}
+\setlist[enumerate]{topsep=0pt}
 
 % spacing between figure and caption
 % \setlength{\abovecaptionskip}{2pt plus 2pt minus 4pt} % default: 10pt
@@ -126,6 +126,7 @@
   
   Different roles can be modeled in our scenario:
   \begin{itemize}
+  \itemsep0pt
    \item Artist Manager role (described in Figure~\ref{figure:role_artist_manager})
    \item Curator role (described in Figure~\ref{figure:role_curator})
    \item Profiler role (described in Figure~\ref{figure:role_profiler})
@@ -148,7 +149,7 @@
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
-      \vspace{-10pt}
+      \vspace{-15pt}
       \begin{center}
        generates \textit{painting //new painting to sell}
       \end{center}
@@ -157,7 +158,6 @@
       \hrule \vspace{10pt}
       Responsabilities:\\
       Liveness:
-      \vspace{-10pt}
       \begin{flushleft}
       \small\textsc{Artist Manager} = (\underline{ChooseHighOrLowQualityProduct}, 
       %WaitTwoOrMoreCurators, 
@@ -166,9 +166,8 @@
       )$^\omega$
       \end{flushleft}
       Safety:
-      \vspace{-10pt}
       \begin{itemize}
-      \itemsep0em
+      \itemsep0pt
        \item $money > 0$
        \item $paintings \geq 0$
       \end{itemize}
@@ -195,7 +194,7 @@
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
-      \vspace{-10pt}
+      \vspace{-15pt}
       \begin{center}
        reads \textit{paintingName //name of the painting}\\
 	    \textit{offer //offer received for auction}\\
@@ -207,15 +206,13 @@
       \hrule \vspace{10pt}
       Responsabilities:\\
       Liveness:
-      \vspace{-10pt}
       \begin{flushleft}
       \small\textsc{Curator} = \underline{DefineStrategy}(DutchAuction, $\mid$\underline{DefineNewPrice},
        ProposeProduct, WaitResponse$\mid$)$^\omega$
       \end{flushleft}
       Safety:
-      \vspace{-10pt}
       \begin{itemize}
-      \itemsep0em
+      \itemsep0pt
       \item $budget > 0$
        \item $paintings \geq 0$
        \item $paintingPrice > 0$
@@ -244,7 +241,7 @@
       \end{flushleft}
       \hrule \vspace{10pt}
       Permissions:\\
-      \vspace{-10pt}
+      \vspace{-15pt}
       \begin{center}
        reads \textit{paintingName //name of the painting}\\
 	    \textit{offer //offer for product}\\
@@ -255,15 +252,13 @@
       \hrule \vspace{10pt}
       Responsabilities:\\
       Liveness:
-      \vspace{-10pt}
       \begin{flushleft}
       \small\textsc{Curator} = \underline{DefineStrategy}, (WaitOffer, BuyProduct $\mid$
       RejectProduct)$^\omega$
       \end{flushleft}
       Safety:
-      \vspace{-10pt}
       \begin{itemize}
-      \itemsep0em
+      \itemsep0pt
       \item $budget > 0$
        \item \textit{offerAccepted} $\leq budget$
       \end{itemize}
@@ -483,6 +478,7 @@
   \subsubsection{Place types}
     In the scenario, there are 4 places described in more details in Table~\ref{table:mobility_places}:
   \begin{itemize}
+  \itemsep0pt
    \item 2 museums: Museo Galileo \& Museo Heritage Malta
    \item 1 house (corresponding to the mobile application)
    \item 1 office (corresponding to the Artist Manager's office)
@@ -651,8 +647,8 @@
   % - Move to Museum
   
   In order to realize use cases diagrams, it was to necessary to find out each actor 
-  of the scenario. The granularity of actors has been reduced compared to GAIA analysis. 
-  Use cases are described in Figure~\ref{figure:use_cases}.
+  of the scenario. The granularity of actors has been reduced compared to GAIA analysis 
+  due to ``atomicness'' of RoMAS method. Use cases are described in Figure~\ref{figure:use_cases}.
   
   \begin{figure}[ht!]
     \begin{subfigure}{0.5\textwidth}
@@ -683,14 +679,15 @@
 
   
   \subsubsection{Roles}
-  % TODO (2) Identify roles from use cases;
+  % (2) Identify roles from use cases;
   % Goals / Attributes / Services (methods)
   
-  Use cases allow us to identify each role.
+  Use cases allow us to identify each role. Each role has a goal, a set of attributes 
+  and a set of services. Following paragraphs describe all of them.
   
   % Roles:
   % - Product chooser : product list / getHighQuality / getLowQuality
-  % - Auctionner (DutchAuction) : call for proposal (price) / accept / refuse
+  % - Auctioneer (DutchAuction) : call for proposal (price) / accept / refuse
   % - Bidder (DutchAuction) : propose / bid
   % - Strategist : strategy list / choose strategy / define new price
   % - Proposer : propose offer
@@ -699,6 +696,106 @@
   % - Rejecter : reject product
   % - Revealer : reveal quality
   % - Mover : move to house / move to office / move to museum
+  
+  \begin{multicols}{2}
+  %%%
+  \begin{mdframed}
+  \textbf{Product chooser}'s main goal is to select a product within a list of different 
+  products. It is possible to select a high or a low quality product in order to sell it 
+  later.\\
+  Attributes: $<$List$>$Product\\
+  Services:
+  \begin{itemize}
+    \itemsep0pt
+    \item PickHighQualityProduct()
+    \item PickLowQualityProduct()
+  \end{itemize}
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Auctioneer}'s main goal is to sell product (high or low quality) using Dutch Auction 
+  protocol.\\
+  Attributes: Price\\
+  Services:
+  \begin{itemize}
+    \itemsep0pt
+    \item callForProposal(price)
+    \item receiveProposal()
+    \item acceptProposal()
+    \item refuseProposal()
+  \end{itemize}
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Bidder} (or \textbf{Proposer})'s main goal is to buy product from auctioneer. Product 
+  can be high or low quality but this role doesn't have any idea about the quality of the 
+  product. Thus, parameters available are: product and price offered. Bidder is specialized 
+  in Dutch Auction protocol.\\
+  Attributes: -\\
+  Services: 
+  \begin{itemize}
+   \itemsep0pt
+   \item propose()
+   \item proposePrice(price)
+  \end{itemize}
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Strategist}'s main goal is to provide strategy to define new price and set up affordable 
+  prices for buyers and bidders.\\
+  Attributes: $<$List$>$ Strategy\\
+  Services:
+  \begin{itemize}
+    \itemsep0pt
+    \item chooseStrategy()
+    \item defineNewPrice()
+  \end{itemize}
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Decision maker}'s main goal is to define and manage a budget. Then this 
+  role has the opportunity to choose actions to perform next according to strategy 
+  defined by \textbf{Strategist}.\\
+  Attributes: Budget\\
+  Services:
+  \begin{itemize}
+    \itemsep0pt
+    \item defineBudget()
+    \item chooseAction(proposal)
+  \end{itemize}
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Buyer}'s main goal is to buy a product from a \textbf{Proposer}.\\
+  Attributes: -\\
+  Services: buyProduct()
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Rejecter}'s main goal is to refuse product offered by a \textbf{Proposer}.\\
+  Attributes: -\\
+  Services: refuseProduct()
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Revealer}'s main goal is to reveal quality of a product once it has been bought.\\
+  Attributes: -\\
+  Services: revealQuality()
+  \end{mdframed}
+  %%%
+  \begin{mdframed}
+  \textbf{Mover}'s main goal is to move from place to place in order to perform actions.\\
+  Attributes: -\\
+  Services:
+  \begin{itemize}
+    \itemsep0pt
+    \item moveToHouse()
+    \item moveToOffice()
+    \item moveToMuseum()
+  \end{itemize}
+  \end{mdframed}
+  
+  \end{multicols}
   
   \subsubsection{Role organization}
   % TODO (3) Constructs role organization;
