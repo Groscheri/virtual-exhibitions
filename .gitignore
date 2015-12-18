@@ -15,6 +15,7 @@ hs_err_pid*
 
 # report
 report/*
+!report/media/
 !report/*.tex
 
 # release

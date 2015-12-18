@@ -621,14 +621,15 @@
   %               RoMAS for the initial task.
   
   \subsubsection{Use cases}
-  % TODO (1) Captures use cases;
-  
+  % (1) Captures use cases;
+   
   % Actors:
   % - Product chooser
-  % - Auctionner (DutchAuction)
+  % - Auctioneer (DutchAuction)
   % - Bidder (DutchAuction)
   % - Strategist
   % - Proposer
+  % - Decision Maker
   % - Buyer
   % - Rejecter
   % - Revealer
@@ -636,7 +637,7 @@
   
   % Use cases:
   % - Choose product (high or low quality)
-  % - Auctionneer (DutchAuction): Call for proposal / Manage proposals / Accept proposal / Refuse proposal(s)
+  % - Auctioneer (DutchAuction): Call for proposal / Manage proposals / Accept proposal / Refuse proposal(s)
   % - Bidder (DutchAuction): Propose
   % - Choose strategy
   % - Define a new price
@@ -645,13 +646,47 @@
   % - Buy a product
   % - Reject a product
   % - Reveal quality (Buy a product)
-  % - Move
-  % - Move to Office (Move)
-  % - Move to House (Move)
+  % - Move to Office
+  % - Move to House
+  % - Move to Museum
+  
+  In order to realize use cases diagrams, it was to necessary to find out each actor 
+  of the scenario. The granularity of actors has been reduced compared to GAIA analysis. 
+  Use cases are described in Figure~\ref{figure:use_cases}.
+  
+  \begin{figure}[ht!]
+    \begin{subfigure}{0.5\textwidth}
+       \includegraphics[width=\textwidth]{media/use_cases_1.png}
+       \caption{Auctioneer, Bidder and Proposer use cases}
+       \label{figure:use_cases_1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+       \includegraphics[width=\textwidth]{media/use_cases_2.png}
+       \caption{Product choose, Strategist and Decision maker use cases}
+       \label{figure:use_cases_2}
+    \end{subfigure}
+    
+    \begin{subfigure}{0.5\textwidth}
+       \includegraphics[width=\textwidth]{media/use_cases_3.png}
+       \caption{Buyer, Rejecter, Revealer use cases}
+       \label{figure:use_cases_3}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+       \includegraphics[width=\textwidth]{media/use_cases_4.png}
+       \caption{Mover use cases}
+       \label{figure:use_cases_4}
+    \end{subfigure}
+
+    \caption{Use cases}
+    \label{figure:use_cases}
+  \end{figure}
+
   
   \subsubsection{Roles}
   % TODO (2) Identify roles from use cases;
   % Goals / Attributes / Services (methods)
+  
+  Use cases allow us to identify each role.
   
   % Roles:
   % - Product chooser : product list / getHighQuality / getLowQuality
@@ -705,12 +740,22 @@
   Compared to GAIA analysis, role-based modeling (RoMAS) allows dynamic roles 
   for each agent. Based on use cases and actors, it is possible to find out 
   roles in the system. GAIA, on the other hand doesn't provide such method and 
-  it goes first in roles definition with 4 different characteristics: responsabilities, 
+  it goes first in roles definition with 4 different characteristics: responsibilities, 
   permissions, protocols and activities. RoMAS also produces organizational 
   diagram in order to outline roles interactions while GAIA asks for an acquaintance 
   model. Roles are seen as states where it is possible to perform actions (like 
-  behaviors in JADE framework) in role-based modeling.
+  behaviors in JADE framework) in role-based modeling. As a result, roles are more 
+  atomic in RoMAS method than with GAIA analysis which goes deeper in the details with 
+  concepts such as protocols and activities. These concepts are very close (if not 
+  similar) to the behavior concept.
   
+  It is also important to notice that RoMAS doesn't have any method to deal with mobility 
+  and it has to be considered as a role. Notions like places and relationships between 
+  agents and places don't exist neither.
+  
+  % TODO well ? :p
+  Finally, RoMAS is at MAS analysis methods what Ruby is at Object Oriented Programing 
+  languages: ``Everything is role''
   %%%%%%
   
   
