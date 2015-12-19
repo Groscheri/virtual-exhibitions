@@ -1043,23 +1043,59 @@
   % - http://fr.slideshare.net/prvalente/jack-intelligent-agents-an-framework-overview
   % - APPLICATION p16: http://www.cs.rmit.edu.au/agents/www/agentsbib/auto-generated/papers/MAP05-W.pdf
   
-  \subsubsection{Architecture}
-  % TODO Architecture of platform
+  Jack Intelligent Agents (JACK) framework is a Java developed tool to build multi-agent 
+  systems as well as JADE. It was created in 1997 by AOS\footnote{Agent Oriented 
+  Software Pty. Ltd.} company and thus is proprietary but it is always maintained 
+  and developed.
   
-  \subsubsection{Services provided}
-  % TODO Services provided by platform
+  The main idea of this framework is to provide an extension of the Java programming 
+  language with agent utilities and methods like autonomy, pro-activeness, resilience, 
+  etc. JACK deals with events and goals which are triggered and agents have to choose 
+  according to their plans whether they have to achieve a goal or not. It is also 
+  important to notice that JACK is FIPA compliant\footnote{with an extension}.
   
-  \subsubsection{Simple scenario}
+  % Architecture of platform
+  % Services provided by platform
+  Agent implementations are based on Belief-Desire-Intention (BDI) model and JACK provides 
+  different components to deal with such modeling:
+  \begin{itemize}
+    \itemsep0pt
+    \item A custom language to define Agent: \textbf{JACK Agent language}
+    \item A custom compiler (\textbf{JACK Agent Compiler}) to convert JACK Agent 
+    language into Java pure language
+    \item \textbf{JACK Agent Kernel} which is an engine to run JACK Agent language 
+    sources. It also provides all libraries and classes needed to develop multi-agent 
+    systems
+  \end{itemize}
+
+  \textbf{JACK Agent Language} is build on top of Java language as a plugin. It includes 
+  several operators to deal with agents development. Thanks to \textbf{JACK Agent Compiler} 
+  and \textbf{JACK Agent Kernel}, it is possible to translate sources from this language 
+  into pure Java and execute it.
+  
+  The core framework doesn't provide any FIPA implementations. Indeed, there isn't any 
+  Directory Facilitator (DF) or Agent Management Services (AMS) to subscribe or register 
+  services. Nevertheless, JACK provides many extensions and plugins like the \textit{FIPA 
+  JACK} extension (in order to be compliant with FIPA), \textit{JACK WebBot} to give 
+  agents the capability to deal with HTTP protocol, etc.
+  
   % TODO Comparison of implementation of a simple scenario same as Question 2 (??)
   % (i.e. service implementation, service registration and service discovery)
+
+  % List some notable projects which use that platform 
+  Some applications were developed with JACK framework\footnote{Reference: 
+  \url{http://www.cs.rmit.edu.au/agents/www/agentsbib/auto-generated/papers/MAP05-W.pdf}}. 
+  Lots of simulation applications like humans behavior, autonomous systems, decision 
+  maker systems (to support human decisions) were created.
   
-  \subsubsection{Notable projects}
-  % TODO List some notable projects which use that platform
-  
-  \subsubsection{Personnel opinion}
-  % TODO Your personnel opinion/judgment about the platform as compared to JADE
+  % Your personnel opinion/judgment about the platform as compared to JADE
   % Yo can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
+  This framework provides interesting tools to deal with multi-agent programming but it implies 
+  a new language to learn even though it is built on top of Java. Features are not as 
+  advanced as those provided by JADE framework and extensions have to be set up to get a better 
+  experience and wider tools. Furthermore, relying on proprietary software could bring serious 
+  issues the day software is not maintained anymore.
   
   \subsection{ZEUS}
   % refs:
@@ -1116,7 +1152,7 @@
   using this framework.
   
     
-  % TODO Your personnel opinion/judgment about the platform as compared to JADE
+  % Your personnel opinion/judgment about the platform as compared to JADE
   % You can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
   It is really complicated to get a whole overview of all features provided by ZEUS 
