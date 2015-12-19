@@ -86,10 +86,10 @@
   % TODO describe briefly different tasks
   
   This project deals with \textbf{Agent Oriented Software Engineering} (AOSE) in the 
-  context of a virtual exhibitions (smart museum). The aim is to model a multi-agent 
+  context of a virtual exhibition (smart museum). The goal of the project is to model a multi-agent 
   system with specific methods of modelisation: GAIA and Role-base modeling.
-  As a consequence of the previous works, this project reuses concepts we learnt 
-  during lectures and homeworks: behaviors, messaging, negotiation, mobility, ...
+  Based on the scenario of previous assignments, this project reuses concepts we learnt 
+  during lectures and homeworks: behaviors, messaging, negotiation, mobility etc.
   
   
   %%%%%%
@@ -275,7 +275,7 @@
   % Profiler -> Curator: waitOffer, buyProduct, rejectProduct
 
   The 3 roles of our model interact with each other through protocols. Artist Manager 
-  communicates with Curators thanks to Dutch Auction Protocol (see Table~\ref{table:dutch_auction_protocol}). 
+  communicates with Curators thanks to the Dutch Auction Protocol (see Table~\ref{table:dutch_auction_protocol}). 
   Curators communicate with Profiler with 2 different protocols: Propose Product 
   Protocol (Table~\ref{table:propose_product_protocol}) and Wait Response Protocol (see Table~\ref{table:wait_response_protocol}). 
   Finally, Profiler interacts with Curators through 3 different protocols: Wait Offer Protocol (see Table~\ref{table:wait_offer_protocol}), 
@@ -755,7 +755,7 @@
   
   In order to realize use cases diagrams, it was to necessary to find out each actor 
   of the scenario. The granularity of actors has been reduced compared to GAIA analysis 
-  due to ``atomicness'' of RoMAS method. Use cases are described in Figure~\ref{figure:use_cases}.
+  due to ``atomicity'' of RoMAS method. Use cases are described in Figure~\ref{figure:use_cases}.
 
       \begin{figure}[ht!]
     \begin{subfigure}{0.5\textwidth}
@@ -794,7 +794,7 @@
   % Goals / Attributes / Services (methods)
   
   Use cases allow us to identify each role. Each role has a goal, a set of attributes 
-  and a set of services. Following paragraphs describe all of them.
+  and a set of services. The paragraphs below provide a description of all of them.
   
   % Roles:
   % - Product chooser : product list / getHighQuality / getLowQuality
@@ -812,7 +812,7 @@
   %%%
   \begin{mdframed}
   \textbf{Product chooser}'s main goal is to select a product within a list of different 
-  products. It is possible to select a high or a low quality product in order to sell it 
+  ones. It is possible to select a high or a low quality product in order to sell it 
   later.\\
   Attributes: $<$List$>$Product\\
   Services:\vspace{-10pt}
@@ -824,7 +824,7 @@
   \end{mdframed}
   %%%
   \begin{mdframed}
-  \textbf{Auctioneer}'s main goal is to sell product (high or low quality) using Dutch Auction 
+  \textbf{Auctioneer}'s main goal is to sell product (high or low quality) using the Dutch Auction 
   protocol.\\
   Attributes: Price\\
   Services:\vspace{-10pt}
@@ -844,9 +844,9 @@
   \end{mdframed}
   %%%
   \begin{mdframed}
-  \textbf{Bidder} (or \textbf{Proposer})'s main goal is to buy product from auctioneer. Product 
-  can be high or low quality but this role doesn't have any idea about the quality of the 
-  product. Thus, parameters available are: product and price offered. Bidder is specialized 
+  \textbf{Bidder} (or \textbf{Proposer})'s main goal is to buy product from an auctioneer. The product 
+  can be of high or low quality and this role is not aware of its quality. Thus, parameters 
+  available are: product and price offered. Bidder is specialized 
   in Dutch Auction protocol.\\
   Attributes: -\\
   Services: \vspace{-10pt}
@@ -858,7 +858,7 @@
   \end{mdframed}
   %%%
   \begin{mdframed}
-  \textbf{Strategist}'s main goal is to provide strategy to define new price and set up affordable 
+  \textbf{Strategist}'s main goal is to provide a strategy which defines a new price and sets up affordable 
   prices for buyers and bidders.\\
   Attributes: $<$List$>$ Strategy\\
   Services:\vspace{-10pt}
@@ -870,7 +870,7 @@
   \end{mdframed}
   %%%
   \begin{mdframed}
-  \textbf{Decision maker}'s main goal is to define and manage a budget. Then this 
+  \textbf{Decision maker}'s main goal is to define and manage a budget. Furthermore, this 
   role has the opportunity to choose actions to perform next according to strategy 
   defined by \textbf{Strategist}.\\
   Attributes: Budget\\
@@ -914,7 +914,7 @@
   
   It is possible to aggregate and gather some roles (previously defined) together. Among all 
   of them, 3 main roles appear: \textbf{Artist Manager}, \textbf{Curator} and \textbf{Profiler}. 
-  Figure~\ref{figure:role_organization} displays roles organization in smart museum scenario.
+  Figure~\ref{figure:role_organization} displays roles organization in the smart museum scenario.
   
   \begin{figure}[ht!]
     \centering
@@ -943,34 +943,34 @@
   
   \begin{itemize}
    \itemsep0pt
-   \item \ama{}: responsible to choose a product and give it to the \cua{} for the product to 
-   be sold. Roles transition are displayed in state diagram in Figure~\ref{figure:role_transition_ama}.
+   \item \ama{}: responsible to choose a product, to auction it and to give it to the \cua{} in order to 
+   be sold. Role transitions are displayed in state diagram in Figure~\ref{figure:role_transition_ama}.
    
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{media/role_transition_ama.png}
-    \caption{Roles transition of ArtistManagerAgent}
+    \caption{Role transitions of ArtistManagerAgent}
     \label{figure:role_transition_ama}
   \end{figure}
    
    \item \cua{}: responsible to move from museum to office and then to house in order to 
-   act as bidders with \ama{} and then retail product to \proa{}. Roles transition are displayed in 
+   act as bidders in the auction organised by \ama{} and then to retail product to \proa{}. Role transitions are displayed in 
    state diagram in Figure~\ref{figure:role_transition_cua}.
      
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{media/role_transition_cua.png}
-    \caption{Roles transition of CuratorAgent}
+    \caption{Role transitions of CuratorAgent}
     \label{figure:role_transition_cua}
   \end{figure}
    
-   \item \proa{}: try to buy products offered by \cua{} at the best prices and reveal its qualities. 
-   Roles transition are displayed in state diagram in Figure~\ref{figure:role_transition_proa}.
+   \item \proa{}: try to buy products offered by \cua{} at the best proposed prices and eventually reveal their quality. 
+   Role transitions are displayed in state diagram in Figure~\ref{figure:role_transition_proa}.
   
     \begin{figure}[ht!]
     \centering
     \includegraphics[height=7cm]{media/role_transition_proa.png}
-    \caption{Roles transition of ProfilerAgent}
+    \caption{Role transitions of ProfilerAgent}
     \label{figure:role_transition_proa}
   \end{figure}
   
@@ -996,23 +996,23 @@
   %  role-based modeling as first step to GAIA analysis)
 
   Compared to GAIA analysis, role-based modeling (RoMAS) allows dynamic roles 
-  for each agent. Based on use cases and actors, it is possible to find out 
+  for each agent. Based on use cases and actors, it is possible to identify 
   roles in the system. GAIA, on the other hand doesn't provide such method and 
   it goes first in roles definition with 4 different characteristics: responsibilities, 
-  permissions, protocols and activities. RoMAS also produces organizational 
-  diagram in order to outline roles interactions while GAIA asks for an acquaintance 
+  permissions, protocols and activities. RoMAS also produces an organizational 
+  diagram in order to outline role interactions while GAIA asks for an acquaintance 
   model. Roles are seen as states where it is possible to perform actions (like 
-  behaviors in JADE framework) in role-based modeling. As a result, roles are more 
-  atomic in RoMAS method than with GAIA analysis which goes deeper in the details with 
+  behaviors in JADE framework) in role-based modeling. As a result, the granularity of roles is higher
+  in RoMAS method than in GAIA analysis which goes in fact deeper in the details of 
   concepts such as protocols and activities. These concepts are very close (if not 
   similar) to the behavior concept.
   
   It is also important to notice that RoMAS doesn't have any method to deal with mobility 
-  and it has to be considered as a role. Notions like places and relationships between 
-  agents and places don't exist neither.
+  and it has to be considered as a role. Neither places nor relationships between 
+  agents and places exist in this methodology.
   
   % TODO well ? :p
-  Finally, RoMAS is at MAS analysis methods what Ruby is at Object Oriented Programing 
+  Finally, RoMAS is for MAS analysis methods what Ruby is for Object Oriented Programing 
   languages: ``Everything is role''
   %%%%%%
   
@@ -1075,9 +1075,9 @@
   
   % Architecture of platform
   % Services provided by platform
-  ZEUS was built in order to help developers to create multi-agent system with higher level 
-  tools. ZEUS architecture consists of different components fully written in Java so that it 
-  takes all the cross and multi-platform advantages of Java programming language. There are 
+  ZEUS was built in order to help developers to create multi-agent systems with higher level 
+  tools. ZEUS architecture consists of different components fully written in Java so it 
+  takes advantage of all cross and multi-platform advantages of Java programming language. There are 
   3 main components in ZEUS architecture:
   \begin{itemize}
    \itemsep0pt
@@ -1088,10 +1088,10 @@
   
   The \textbf{Agent Component Library} provides different classes and libraries in order to build custom 
   agents such as message handlers, mailboxes, ontology databases and so on. This is really useful for 
-  developers to concentrate on the content and the main goal of their agents and not on the way to make 
+  developers to focus on the content and the main goal of their agents and not on the way to make 
   their agents communicate with each other in low layer protocols. The framework also provides scheduler 
   and planner which act as decision makers and coordinate the execution stack of each agent (how to start, 
-  pause, resume or stop them in a consistent way).
+  pause, resume or stop in a consistent way).
   
   The \textbf{Agent Building Software} provides different tools to build a multi-agent system with a higher 
   level than the Agent Component Library. Indeed, using Model Driven Development, it is possible to create 
@@ -1100,8 +1100,8 @@
   so on... It is possible to combine both Agent Component Library and this library to build complex systems.
   
   Finally, the \textbf{Utility Agents} component provides meta-level services such as monitoring, statistics or  
-  debugging tools (which is not provided by JADE framework). It also embeds useful services like a nameserver 
-  and a facilitator agent (which acts in the same way as the one in JADE) to provide agents and services 
+  debugging tools (such components are not provided in JADE framework). It also embeds useful services like a nameserver 
+  and a facilitator agent (which acts in the same way as the one in JADE) to provide agent and service 
   discovery.
   
   Unfortunately, compared to JADE framework, ZEUS doesn't provide any mobility services. Nevertheless, 
@@ -1112,7 +1112,7 @@
   % (i.e. service implementation, service registration and service discovery)
   
   % List some notable projects which use that platform
-  Due to the lack of documentation and papers around ZEUS, we were not able to find any notable projects 
+  Due to the lack of documentation regarding ZEUS, we were not able to find any notable projects 
   using this framework.
   
     
@@ -1120,21 +1120,28 @@
   % You can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
   It is really complicated to get a whole overview of all features provided by ZEUS 
-  because it is a bit outdated and documentation is harsh to find. Indeed, documentation 
-  around ZEUS framework is really thin and during this task, it was complicated to 
+  because it is a bit outdated and documentation is harsh to find. Moreover, the discovered documentation 
+  for this framework is really thin and during this task, it was complicated to 
   find relevant information or even to verify our sources.
   
-  ZEUS framework would have been really interesting to use with the debug tool it provides 
-  since this is not a feature provided by JADE framework. It can be very useful in order to 
-  understand how the system is running and even more if it is complex.
+  ZEUS framework would have been really interesting to use, mainly the provided debug tool 
+  which is in fact a feature not present in JADE framework. It can be very useful to 
+  understand how the system is running and even to get an idea of its complexity.
 
   %%%%%%
   
   
   \section{Conclusion}
   % TODO what this project gave us ?
-  In this project, we discovered several methods to model multi-agents system. We also 
-  introduced 2 MAS platforms and compared both of them with JADE framework.
+  In this project, we discovered several methods used during the conception phase for a 
+  multi-agents system. The idea was to use the rich language UML and to adapt it to the case
+  of such systems. It is known under the acronym AUML. We used it to describe
+  agents, to outline the interactions between them and to highlight their behaviors. Moreover, 
+  a role-based approach was also used in order to get a different view on the behaviors of the agents.
+  The last part of the project focused on introducing 2 other MAS platforms. 
+  A general comparison was realized and the goal was to outline the different approaches of a MAS, to state 
+  the particularities of each of them and to
+  eventually highlight the philosophy behind each framework.
 
   
 % bibliography
