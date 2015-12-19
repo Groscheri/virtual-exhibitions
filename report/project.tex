@@ -1024,16 +1024,19 @@
   
   % Links:
   % - https://en.wikipedia.org/wiki/FIPA
+  % - http://arxiv.org/pdf/1111.5930.pdf
   
   
   There are several multi-agents platform respecting and implementing FIPA 
-  specifications. Among all of them, we choose to study \textbf{Jack Intelligent 
-  Agents} and \textbf{TODO}. % TODO
+  specifications. Among all of them, we chose to study \textbf{Jack Intelligent 
+  Agents} and \textbf{ZEUS}.
   
   \subsection{Jack Intelligent Agents}
   % refs:
   % - https://en.wikipedia.org/wiki/JACK_Intelligent_Agents
   % - http://www.aosgrp.com/documentation/jack/Agent_Manual_WEB/index.html#Introduction
+  % - http://fr.slideshare.net/prvalente/jack-intelligent-agents-an-framework-overview
+  % - APPLICATION p16: http://www.cs.rmit.edu.au/agents/www/agentsbib/auto-generated/papers/MAP05-W.pdf
   
   \subsubsection{Architecture}
   % TODO Architecture of platform
@@ -1053,29 +1056,73 @@
   % Yo can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
   
-  \clearpage % TODO to remove
+  \subsection{ZEUS}
+  % refs:
+  % - http://www.upv.es/sma/plataformas/zeus/Zeus-lessonone.pdf
+  % - http://www.upv.es/sma/plataformas/zeus/Zeus-Runtime-Guide.pdf
+  % - http://link.springer.com/article/10.1023%2FA%3A1009673714049#page-1
+  % - http://fipa.org/resources/methodologies.html#zeus
+  % - http://e-archivo.uc3m.es/bitstream/handle/10016/6158/performance_aler_SMC_2002.pdf?sequence=1
+  % - ARCHITECTURE: http://www.upv.es/sma/plataformas/zeus/Zeus-TechManual.pdf
   
-  \subsection{platform 2} % TODO to choose 
+  ZEUS Agent Building Toolkit is an old free open-sources framework FIPA compliant which 
+  is no longer actively developed and maintained according to Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/FIPA}}.
   
-  \subsubsection{Architecture}
-  % TODO Architecture of platform
+  % Architecture of platform
+  % Services provided by platform
+  ZEUS was built in order to help developers to create multi-agent system with higher level 
+  tools. ZEUS architecture consists of different components fully written in Java so that it 
+  takes all the cross and multi-platform advantages of Java programming language. There are 
+  3 main components in ZEUS architecture:
+  \begin{itemize}
+   \itemsep0pt
+   \item An Agent Component Library
+   \item An Agent Building Software
+   \item Utility Agents
+  \end{itemize}
   
-  \subsubsection{Services provided}
-  % TODO Services provided by platform
+  The \textbf{Agent Component Library} provides different classes and libraries in order to build custom 
+  agents such as message handlers, mailboxes, ontology databases and so on. This is really useful for 
+  developers to concentrate on the content and the main goal of their agents and not on the way to make 
+  their agents communicate with each other in low layer protocols. The framework also provides scheduler 
+  and planner which act as decision makers and coordinate the execution stack of each agent (how to start, 
+  pause, resume or stop them in a consistent way).
   
-  \subsubsection{Simple scenario}
+  The \textbf{Agent Building Software} provides different tools to build a multi-agent system with a higher 
+  level than the Agent Component Library. Indeed, using Model Driven Development, it is possible to create 
+  such systems without going deep in the code and the programming tools. Different editors provided by ZEUS 
+  can be used to achieve such goals like ontology editor, fact (variable) editor, agent definition editor and 
+  so on... It is possible to combine both Agent Component Library and this library to build complex systems.
+  
+  Finally, the \textbf{Utility Agents} component provides meta-level services such as monitoring, statistics or  
+  debugging tools (which is not provided by JADE framework). It also embeds useful services like a nameserver 
+  and a facilitator agent (which acts in the same way as the one in JADE) to provide agents and services 
+  discovery.
+  
+  Unfortunately, compared to JADE framework, ZEUS doesn't provide any mobility services. Nevertheless, 
+  cryptographic methods are used to secure communication and it gives the framework pretty strong 
+  security regarding communication confidentiality, agent authentication and data integrity.
+  
   % TODO Comparison of implementation of a simple scenario same as Question 2 (??)
   % (i.e. service implementation, service registration and service discovery)
   
-  \subsubsection{Notable projects}
-  % TODO List some notable projects which use that platform
+  % List some notable projects which use that platform
+  Due to the lack of documentation and papers around ZEUS, we were not able to find any notable projects 
+  using this framework.
   
-  \subsubsection{Personnel opinion}
+    
   % TODO Your personnel opinion/judgment about the platform as compared to JADE
-  % Yo can take part 3 (simple scenario) as your starting point, and explain the 
+  % You can take part 3 (simple scenario) as your starting point, and explain the 
   % architecture and services the platform provides from a practical point of view
+  It is really complicated to get a whole overview of all features provided by ZEUS 
+  because it is a bit outdated and documentation is harsh to find. Indeed, documentation 
+  around ZEUS framework is really thin and during this task, it was complicated to 
+  find relevant information or even to verify our sources.
   
-  
+  ZEUS framework would have been really interesting to use with the debug tool it provides 
+  since this is not a feature provided by JADE framework. It can be very useful in order to 
+  understand how the system is running and even more if it is complex.
+
   %%%%%%
   
   
